@@ -4,8 +4,9 @@ import React from 'react';
 import {HomeStackScreen} from './src/navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import {ProfileStackScreen} from './src/navigation/stack';
+import {CheckoutStackScreen} from './src/navigation/stack'
+import {CheckoutAlternativeStackScreen} from './src/navigation/stack'
 import DrawerContent from './src/Drawer/drawer';
-import CheckoutScreen from './src/views/checkout/Checkout'
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 const App = () => {
@@ -15,8 +16,8 @@ const App = () => {
     <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
       <Drawer.Screen name="HomeDrawer" component={HomeStackScreen} />
       <Drawer.Screen name="Profile" component={ProfileStackScreen} />
-      <Drawer.Screen name="Checkout" component={CheckoutScreen} />
-      
+      <Drawer.Screen name="Checkout" component={CheckoutStackScreen} />
+      <Drawer.Screen name="Checkout_Alternative" component={CheckoutAlternativeStackScreen}/>
     </Drawer.Navigator>
   </NavigationContainer>
   );

@@ -2,6 +2,8 @@ import React,{useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../views/home/home'
 import ProfileScreen from '../views/profile/Profile'
+import CheckoutScreen from '../views/checkout/Checkout'
+import CheckoutAlternativeScreen from '../views/Checkout_Alternative/Checkout_Alternative'
 import {View, Image, StyleSheet, Dimensions,TouchableOpacity,Modal,Text} from 'react-native';
 const Stack = createStackNavigator();
 function Logo() {
@@ -122,7 +124,7 @@ export const ProfileStackScreen = ({navigation}) => {
         screenOptions={{
           headerStyle: {
             backgroundColor: '#fff',
-            height: 60,
+            height: 80,
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -151,11 +153,73 @@ export const ProfileStackScreen = ({navigation}) => {
         </Stack.Navigator>
     );
 }
-
-// export const ProfileStackScreen = ({navigtion})=>{
-//     return (
-//         <Stack.Navigator>
-//             <Stack.Screen name="profile" component={ProfileScreen} />
-//         </Stack.Navigator>
-//     );
-// }
+export const CheckoutStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#fff',
+          height: 80,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        // headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Checkout" component={CheckoutScreen} 
+             options={{ 
+              headerLeft: ()=> (
+                  <TouchableOpacity
+                      onPress={() => navigation.openDrawer()}
+                      style={{ width: 50,textAlign:'center'}}>
+                      <Image
+                           style={{
+                              height:50,width:50
+                           }}
+                          source={require('../assets/img/menu1.png')}
+                      />
+                  </TouchableOpacity>
+              ),
+              headerTitle :() => <Logo/>,
+              headerRight :() => <DropDown/>
+           }}
+           />
+      </Stack.Navigator>
+  );
+}
+export const CheckoutAlternativeStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#fff',
+          height: 80,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        // headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Checkout_Alternative" component={CheckoutAlternativeScreen} 
+             options={{ 
+              headerLeft: ()=> (
+                  <TouchableOpacity
+                      onPress={() => navigation.openDrawer()}
+                      style={{ width: 50,textAlign:'center'}}>
+                      <Image
+                           style={{
+                              height:50,width:50
+                           }}
+                          source={require('../assets/img/menu1.png')}
+                      />
+                  </TouchableOpacity>
+              ),
+              headerTitle :() => <Logo/>,
+              headerRight :() => <DropDown/>
+           }}
+           />
+      </Stack.Navigator>
+  );
+}
