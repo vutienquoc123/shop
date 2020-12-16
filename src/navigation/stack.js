@@ -4,6 +4,12 @@ import HomeScreen from '../views/home/home'
 import ProfileScreen from '../views/profile/Profile'
 import CheckoutScreen from '../views/checkout/Checkout'
 import CheckoutAlternativeScreen from '../views/Checkout_Alternative/Checkout_Alternative'
+import orderScreen from '../views/Your_Order/Your_Order'
+import orderInvoiceScreen from '../views/Order_Invoice/Order_Invoice'
+import serviceScreen from '../views/Term_Services/Term_Services'
+import needHelpScreen from '../views/Need_Help/Need_Help'
+import policyScreen from '../views/Privacy_Policy/Privacy_Policy'
+import offerScreen from '../views/Offer/Offer'
 import {View, Image, StyleSheet, Dimensions,TouchableOpacity,Modal,Text} from 'react-native';
 const Stack = createStackNavigator();
 function Logo() {
@@ -203,6 +209,216 @@ export const CheckoutAlternativeStackScreen = ({navigation}) => {
         // headerTitleAlign: 'center',
       }}>
           <Stack.Screen name="Checkout_Alternative" component={CheckoutAlternativeScreen} 
+             options={{ 
+              headerLeft: ()=> (
+                  <TouchableOpacity
+                      onPress={() => navigation.openDrawer()}
+                      style={{ width: 50,textAlign:'center'}}>
+                      <Image
+                           style={{
+                              height:50,width:50
+                           }}
+                          source={require('../assets/img/menu1.png')}
+                      />
+                  </TouchableOpacity>
+              ),
+              headerTitle :() => <Logo/>,
+              headerRight :() => <DropDown/>
+           }}
+           />
+      </Stack.Navigator>
+  );
+}
+export const OrderStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#fff',
+          height: 80,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        // headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Your_Order" component={orderScreen} 
+             options={{ 
+              headerLeft: ()=> (
+                  <TouchableOpacity
+                      onPress={() => navigation.openDrawer()}
+                      style={{ width: 50,textAlign:'center'}}>
+                      <Image
+                           style={{
+                              height:50,width:50
+                           }}
+                          source={require('../assets/img/menu1.png')}
+                      />
+                  </TouchableOpacity>
+              ),
+              headerTitle :() => <Logo/>,
+              headerRight :() => <DropDown/>
+           }}
+           />
+      </Stack.Navigator>
+  );
+}
+export const OrderInvoiceStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#fff',
+          height: 80,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        // headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Order_Invoice" component={orderInvoiceScreen} 
+             options={{ 
+              headerLeft: ()=> (
+                  <TouchableOpacity
+                      onPress={() => navigation.openDrawer()}
+                      style={{ width: 50,textAlign:'center'}}>
+                      <Image
+                           style={{
+                              height:50,width:50
+                           }}
+                          source={require('../assets/img/menu1.png')}
+                      />
+                  </TouchableOpacity>
+              ),
+              headerTitle :() => <Logo/>,
+              headerRight :() => <DropDown/>
+           }}
+           />
+      </Stack.Navigator>
+  );
+}
+export const ServiceStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#fff',
+          height: 80,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        // headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Term_Services" component={serviceScreen} 
+             options={{ 
+              headerLeft: ()=> (
+                  <TouchableOpacity
+                      onPress={() => navigation.openDrawer()}
+                      style={{ width: 50,textAlign:'center'}}>
+                      <Image
+                           style={{
+                              height:50,width:50
+                           }}
+                          source={require('../assets/img/menu1.png')}
+                      />
+                  </TouchableOpacity>
+              ),
+              headerTitle :() => <Logo/>,
+              headerRight :() => <DropDown/>
+           }}
+           />
+      </Stack.Navigator>
+  );
+}
+export const NeedHelpStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#fff',
+          height: 80,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        // headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Need_Help" component={needHelpScreen} 
+             options={{ 
+              headerLeft: ()=> (
+                  <TouchableOpacity
+                      onPress={() => navigation.openDrawer()}
+                      style={{ width: 50,textAlign:'center'}}>
+                      <Image
+                           style={{
+                              height:50,width:50
+                           }}
+                          source={require('../assets/img/menu1.png')}
+                      />
+                  </TouchableOpacity>
+              ),
+              headerTitle :() => <Logo/>,
+              headerRight :() => <DropDown/>
+           }}
+           />
+      </Stack.Navigator>
+  );
+}
+export const OfferStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#fff',
+          height: 80,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        // headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Offer" component={offerScreen} 
+             options={{ 
+              headerLeft: ()=> (
+                  <TouchableOpacity
+                      onPress={() => navigation.openDrawer()}
+                      style={{ width: 50,textAlign:'center'}}>
+                      <Image
+                           style={{
+                              height:50,width:50
+                           }}
+                          source={require('../assets/img/menu1.png')}
+                      />
+                  </TouchableOpacity>
+              ),
+              headerTitle :() => <Logo/>,
+              headerRight :() => <DropDown/>
+           }}
+           />
+      </Stack.Navigator>
+  );
+}
+export const PolicyStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#fff',
+          height: 80,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        // headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Privacy_Policy" component={policyScreen} 
              options={{ 
               headerLeft: ()=> (
                   <TouchableOpacity

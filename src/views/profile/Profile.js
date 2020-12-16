@@ -4,7 +4,6 @@ import Swiper from 'react-native-swiper'
 import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Textarea from 'react-native-textarea';
-import Header from '../../layouts/header'
 function Next() {
    return (  
       <View style={{ height:50,width:50,marginRight:-10}}>
