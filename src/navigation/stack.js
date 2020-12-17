@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import HomeScreen from '../views/home/home'
+import HomeScreen from '../views/home/Home'
 import ProfileScreen from '../views/profile/Profile'
 import {View, Image, StyleSheet, Dimensions,TouchableOpacity} from 'react-native';
 import {

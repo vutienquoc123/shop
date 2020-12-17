@@ -9,6 +9,20 @@ import gg from '../../../assets/icon/google.png'
 
 const Form = (props) => {
     const [showPass, setshowpass ] = useState(true);
+    const [account, setAccount] = useState({username:'', password :''});
+
+    const handleChange=(name,value)=>{
+        // console.log(name," ",value);
+        if(name === 'username') 
+        {
+            setAccount(account.username = value)
+        }
+        else
+        {
+            setAccount(account.password = value)
+        }
+    }
+
     const goRegister = ()=>{
         console.log('create account')
     }
@@ -18,13 +32,20 @@ const Form = (props) => {
     }
     return (
         <View>
+            {/* form input */}
             <UserInput
                 placeholder ='Username ...'
+                onChangeText = {handleChange}
+                value={account.username}
+                name={'username'}
                 // secureTextEntry ='false'
             />
             <UserInput
                 placeholder = 'Password ...'
                 secureTextEntry = {showPass}
+                value={account.password}
+                onChangeText = {handleChange}
+                name={'password'}
             />
 
             <Button_Submit
