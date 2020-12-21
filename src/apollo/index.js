@@ -1,6 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 
-const cache = new InMemoryCache();
+
 
 const URL = process.env.REACT_APP_SERVER_URL;
 
@@ -10,8 +10,8 @@ const httplink = new HttpLink({
 });
 
 const client = new ApolloClient({
-    link: httplink,
-    cache
+    uri: 'http://172.16.2.64:4000/shop/graphql',
+    cache : new InMemoryCache()
 })
 
 
