@@ -341,7 +341,7 @@ export default function Checkout({ navigation }) {
                   />
                </TouchableOpacity >
              <Text style={styles.cardNumber}>Card Number</Text>
-             <View style={{  flexDirection: 'row',justifyContent: 'space-between',width:WIDTH*0.75,left:20,marginTop:15 }}>
+             <View style={{  flexDirection: 'row',justifyContent: 'space-between',width:WIDTH*0.7,left:20,marginTop:15 }}>
                 <Text style={styles.numberCard}>****</Text>
                 <Text style={styles.numberCard}>****</Text>
                 <Text style={styles.numberCard}>****</Text>
@@ -370,7 +370,7 @@ export default function Checkout({ navigation }) {
                   />
                </TouchableOpacity>
              <Text style={styles.cardNumber}>Card Number</Text>
-             <View style={{  flexDirection: 'row',justifyContent: 'space-between',width:WIDTH*0.75,left:20,marginTop:15 }}>
+             <View style={{  flexDirection: 'row',justifyContent: 'space-between',width:WIDTH*0.7,left:20,marginTop:15 }}>
                 <Text style={styles.numberCard}>****</Text>
                 <Text style={styles.numberCard}>****</Text>
                 <Text style={styles.numberCard}>****</Text>
@@ -399,7 +399,7 @@ export default function Checkout({ navigation }) {
                   />
             </TouchableOpacity >
              <Text style={styles.cardNumber}>Card Number</Text>
-             <View style={{  flexDirection: 'row',justifyContent: 'space-between',width:WIDTH*0.75,left:20,marginTop:15 }}>
+             <View style={{  flexDirection: 'row',justifyContent: 'space-between',width:WIDTH*0.7,left:20,marginTop:15 }}>
                 <Text style={styles.numberCard}>****</Text>
                 <Text style={styles.numberCard}>****</Text>
                 <Text style={styles.numberCard}>****</Text>

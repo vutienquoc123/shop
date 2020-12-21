@@ -3,6 +3,12 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet,ScrollView,Image,Mo
 import Swiper from 'react-native-swiper'
 import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { GET_LOGGED_IN_CUSTOMER } from '../../graphql/query/customer';
+import { UPDATE_ME } from '../../graphql/mutation/me'
+import {UPDATE_CONTACT,DELETE_CONTACT} from '../../graphql/mutation/contact'
+import {UPDATE_ADDRESS,DELETE_ADDRESS} from '../../graphql/mutation/address'
+import { useQuery,gql,useMutation } from '@apollo/client';
+
 import Textarea from 'react-native-textarea';
 function Next() {
    return (  
@@ -32,51 +38,105 @@ function Next() {
    );
  }
 export default function Profile({ navigation}) {
+   const { data, error, loading } = useQuery(GET_LOGGED_IN_CUSTOMER);
+   const [updateUser, setUpdatesUser] = useMutation(UPDATE_ME);
+   const [updateContact, setUpdatesContact] = useMutation(UPDATE_CONTACT);
+   const [updateAddress, setUpdatesAddress] = useMutation(UPDATE_ADDRESS);
+   const [deleteContactMutation] = useMutation(DELETE_CONTACT);
+   const [deleteAddressMutation] = useMutation(DELETE_ADDRESS) 
+   // console.log(data.me.contact[0],"aaa");
+   if (loading) return null;
+   if (error) return `Error! ${error}`;
+   const [user,setUser] = useState(data.me)
+   // const [user,setUser] = useState(data.me)
+   // console.log(user.contact)
    const WIDTH = Dimensions.get('window').width;
    const HEIGHT = Dimensions.get('window').height;
-  const [state,setState] = useState({
-    email: '',
-    password: ''
- })
- const [stateContact,setStateContact] = useState({
-    contact:'',
- })
- const [address,setAddress] = useState({
-    title:'',
-    address:'',
- })
+ const [name, onChangeName] = useState(data.me.name);
+ const [email, onChangeEmail] = useState(data.me.email);
+ const [contactItems,setContactItems] = useState(data.me.contact)
+ const [addressItems,setAddressItems] = useState(data.me.address)
+ const [id,setId] = useState(data.me.contact[0].id)
+const [idAddress,setIdAddress] = useState(data.me.address[0].id)
+ const [contact,setContact] = useState('')
+ const [titleAddress,setTitleAddress] = useState('')
+ const [infoAddress,setInfoAddress] = useState('')
  const [color,setColor] = useState('white')
  const [colorPassword,setColorPassword] = useState('white')
  const [primary,setPrimary] = useState({
     borderColor: '#009e7f',
     backgroundColor:'white',
     type: 'primary',
-    
  })
- const [colorCard,setColorCard] = useState('white')
  const [secondary,setSecondary] = useState({
    borderColor: 'white',
    backgroundColor:'#f7f7f7', 
    type: 'secondary',
-})
+   })
+   const [primaryAddress,setPrimaryAddress] = useState({
+      borderColor: '#009e7f',
+      backgroundColor:'white',
+   })
+   const [secondaryAddress,setSecondaryAddress] = useState({
+      borderColor: 'white',
+      backgroundColor:'#f7f7f7', 
+   })
+ const [colorCard,setColorCard] = useState('white')
 const [visible,setVisible]= useState({show:false})
+const [visibleEdit,setVisibleEdit]= useState({show:false})
 const [visibleAddress,setVisibleAddress]= useState({show:false})
+const [visibleAddressEdit,setVisibleAddressEdit]= useState({show:false})
+const [editNumber,setEditNumber]= useState('')
+const [editTitleAddress,setEditTitleAddress]= useState('')
+const [editInfoAddress,setEditInfoAddress]= useState('')
+const [iContact,setIContact]= useState('')
+const [iAddress,setIAddress]= useState('')
 const handleCard = () =>{
    if(colorCard=='white')
     {setColorCard('#009e7f') }
 }
-const submitContact= (text)=>{
-   setStateContact({contact: text})
+
+const trainValue = (e,i) =>{
+   setEditNumber(e.number) 
+   setIContact(i)
 }
-const handleTitleAddress = (text) => {
-   setAddress({ title: text })
+const saveContact =(number)=>{
+   const type = 'secondary'
+   updateContact({variables: { contactInput: JSON.stringify( {type,number}) }})
+   const id = Math.random()
+   const items = [...contactItems]
+   const item = {id,type,number}
+   items.push(item)
+   setContactItems(items)
 }
-const handleContentAddress = (text) => {
-   setAddress({ add: text })
+const updateContactItem =(number,id)=>{
+   console.log(iContact)
+   const type = 'secondary'
+   updateContact({variables: { contactInput: JSON.stringify( {id,type,number}) }})
+   const items = [...contactItems]
+   const item = {id,type,number}
+   items[iContact] = item
+   setContactItems(items)
 }
-const submitAddress = (title, address) => {
-   alert('email: ' + title + ' password: ' + address)
+const addAddress = (name, info) => {
+   const type = 'secondary'
+   // updateAddress({variables: { addressInput: JSON.stringify({type,name,info}) }})
+   const id = Math.random()
+   const items = [...addressItems]
+   const item = {id,type,name,info}
+   items.push(item)
+   setAddressItems(items)
 }
+const editAddress = (id,name,info) =>{
+   console.log(iAddress)
+   const type = 'secondary'
+   updateAddress({variables: { addressInput: JSON.stringify({id,type,name,info}) }})
+   const items = [...addressItems]
+   const item = {id,type,name,info}
+   items[iAddress] = item
+   setAddressItems(items)
+}
+
 const dishandledCard = () =>{
    if(colorCard=='#009e7f')
     {setColorCard('white')}
@@ -95,37 +155,36 @@ const burPassword = () => {
  const bur = () => {
     setColor('white')
  }
- const handleEmail = (text) => {
-    setState({ email: text })
+ const submitUser = (name, email) => {
+    updateUser({variables: { meInput: JSON.stringify({ name, email }) }})
+    alert('Name: ' + name + ' Email: ' + email)
  }
- const handlePassword = (text) => {
-    setState({ password: text })
- }
- const login = (email, pass) => {
-    alert('email: ' + email + ' password: ' + pass)
- }
- const handleAddress1 = () => {
-   if(primary.borderColor=='#009e7f'&&secondary.borderColor=='white')
-     { setPrimary({borderColor:'#009e7f',backgroundColor:'white',type:'primary'})
-      setSecondary({borderColor:'white',backgroundColor:'#f7f7f7',type:'secondary'})}
-   else if(primary.borderColor=='white'&&secondary.borderColor=='#009e7f'){
-      setPrimary({borderColor:'#009e7f',backgroundColor:'white',type:'primary'})
-      setSecondary({borderColor:'white',backgroundColor:'#f7f7f7',type:'secondary'})
+ const handleContact = (e) => {
+    setId(e.id)
+}
+   const handleAddress1 = (e) => {
+      setIdAddress(e.id)
+  }
+  const trainValueAddress = (e,i) =>{
+   setEditTitleAddress(e.name)
+   setEditInfoAddress(e.info)   
+   setIAddress(i)
    }
+   const deleteContact = (e,i)=>{
+      deleteContactMutation({variables: { contactId: JSON.stringify(e.id)}})
+      const items = [...contactItems]
+      items.splice(i,1)
+      setContactItems(items)
    }
-   const handleAddress2 =() =>{
-      if(secondary.borderColor=='#009e7f'&&primary.borderColor=='white')
-     { setSecondary({borderColor:'#009e7f',backgroundColor:'white',type:'primary'})
-      setPrimary({borderColor:'white',backgroundColor:'#f7f7f7',type:'secondary'})}
-       else if(secondary.borderColor=='white'&&primary.borderColor=='#009e7f'){
-      setSecondary({borderColor:'#009e7f',backgroundColor:'white',type:'primary'})
-      setPrimary({borderColor:'white',backgroundColor:'#f7f7f7',type:'secondary'})
+   const deleteAddress = (e,i) => {
+      console.log(e)
+      deleteAddressMutation({variables: { addressId: JSON.stringify(e.id) }})
+      const items = [...addressItems]
+      items.splice(i,1)
+      setAddressItems(items)
    }
-   }
- 
     return (
       <ScrollView style = {styles.container}>
-       
         <Text style = {styles.title}>Your profile</Text>
        <View style = {styles.form}>
             <Text style={styles.titleInput}>Name</Text> 
@@ -140,7 +199,8 @@ const burPassword = () => {
              onFocus = {handle}
              onEndEditing = {bur}
              autoCapitalize = "none"
-             onChangeText = {handleEmail}/>
+             value={name}
+             onChangeText={text => onChangeName(text)}/>
            <Text style={styles.titleInput}>Email</Text>  
           <TextInput style = {{  borderWidth:1,
                                  borderColor:colorPassword,
@@ -150,24 +210,29 @@ const burPassword = () => {
                                  backgroundColor:'#f7f7f7' }}
              underlineColorAndroid = "transparent"
              placeholder = "Email"
+             value={email}
              onFocus = {password}
              onEndEditing = {burPassword}
              autoCapitalize = "none"
-             onChangeText = {handlePassword}/>
+             onChangeText={text => onChangeEmail(text)}/>
           
           <TouchableOpacity
              style = {styles.submitButton}
              onPress = {
-                () => login(state.email, state.password)
+                () => submitUser(name, email,)
              }>
              <Text style = {styles.submitButtonText}> Save </Text>
           </TouchableOpacity>
        </View>
+
+   {/* Contact */}
+      
        <View  style = {styles.contactNumber}>
          <Text style = {styles.titleContact}>Contact Number</Text>
-         <TouchableOpacity onPress={handleAddress1}> 
+         {contactItems.map((e,i)=>(
+         <TouchableOpacity onPress={()=>handleContact(e)}> 
          <View style={styles.edit_delete}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{setVisibleEdit({show:true});trainValue(e,i),handleContact(e)}}>
              <View style={styles.edit}>
                   <Icon
                   name="edit" 
@@ -176,8 +241,8 @@ const burPassword = () => {
                   />
              </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-               <View style={styles.delete}>
+            <TouchableOpacity onPress={()=>{deleteContact(e,i)}}>
+               <View style={styles.delete} >
                   <Icon
                   name="close" 
                   color='white'
@@ -186,7 +251,8 @@ const burPassword = () => {
                </View>
             </TouchableOpacity>
          </View>
-         <View style={{ backgroundColor:primary.backgroundColor,
+         {e.id == id ?
+          <View style={{ backgroundColor:primary.backgroundColor,
                         marginTop:10,
                         height:100,
                         justifyContent: 'center',
@@ -195,41 +261,21 @@ const burPassword = () => {
                         borderColor:primary.borderColor,
                          }}>
              <Text style={styles.textContact}>{primary.type}</Text>
-             <Text style={styles.number}>123-456-789</Text>
-         </View>
-         </TouchableOpacity>
-         <TouchableOpacity onPress={handleAddress2}>
-         <View style={styles.edit_delete}>
-            <TouchableOpacity>
-            <View style={styles.edit}>
-                  <Icon
-                  name="edit" 
-                  color='white'
-                  size={20}
-                  />
-             </View>
-            </TouchableOpacity>
-            <TouchableOpacity>    
-             <View style={styles.delete}>
-             <Icon
-                  name="close" 
-                  color='white'
-                  size={20}
-                  />
-             </View>
-            </TouchableOpacity>
-             </View>
-            <View style={{ backgroundColor:secondary.backgroundColor,
-                        borderWidth:1,
-                        borderColor:secondary.borderColor,
+             <Text style={styles.number}>{e.number}</Text>
+         </View>:<View style={{ backgroundColor:secondary.backgroundColor,
                         marginTop:10,
                         height:100,
                         justifyContent: 'center',
-                        borderRadius:8, }}>
+                        borderRadius:8,
+                        borderWidth:1,
+                        borderColor:secondary.borderColor,
+                         }}>
              <Text style={styles.textContact}>{secondary.type}</Text>
-             <Text style={styles.number}>450-787-545</Text>
+             <Text style={styles.number}>{e.number}</Text>
          </View>
+         }
          </TouchableOpacity>
+         ))}
          <Modal transparent={true}
                visible={visible.show}> 
             <View style={{ backgroundColor:'#000000aa',flex:1,justifyContent: 'center',alignItems: 'center'}}>
@@ -252,8 +298,39 @@ const burPassword = () => {
              underlineColorAndroid = "transparent"
              placeholder = "Enter a phone number"
              autoCapitalize = "none"
-             onChangeText = {submitContact}/>
-                  <TouchableOpacity onPress={()=>{setVisible({show:false})}} style={{ backgroundColor:'#009e7f',alignItems: 'center',marginTop:10}}>
+             onChangeText = {text=>setContact(text)}/>
+                  <TouchableOpacity onPress={()=>{setVisible({show:false});saveContact(contact)}} style={{ backgroundColor:'#009e7f',alignItems: 'center',marginTop:10}}>
+                     <Text style={{ fontSize:25,color:'white',fontWeight:'bold',height:50,marginTop:10}}>Save Contact</Text>
+                  </TouchableOpacity>
+               </View>
+            </View>
+         </Modal>
+         <Modal transparent={true}
+               visible={visibleEdit.show}
+               animationType="fade"> 
+            <View style={{ backgroundColor:'#000000aa',flex:1,justifyContent: 'center',alignItems: 'center'}}>
+            <TouchableOpacity style={{ height:40,width:40,borderRadius:20 ,backgroundColor:'white',justifyContent: 'center',alignItems: 'center',position: 'absolute',right:10,top:15}}
+            onPress={()=>{setVisibleEdit({show:false})}}>
+               <Icon  name="close" 
+                  color='black'
+                  size={30}/>
+            </TouchableOpacity>  
+               <View style={{backgroundColor:'#f7f8f9',margin:50,width:WIDTH*0.85,height:HEIGHT*0.4,padding:25,justifyContent: 'center'}}>
+                  <Text style={{ fontSize:30,fontWeight:'bold'}}>Edit Contact</Text>
+                  <TextInput style = {{ 
+                                 height: 60,
+                                 borderWidth:1,
+                                 borderColor:'#afaeae',
+                                 marginTop:15,
+                                 marginBottom:10,
+                                 borderRadius:5,
+                                 backgroundColor:'white' }}
+             underlineColorAndroid = "transparent"
+             placeholder = "Enter a phone number"
+             autoCapitalize = "none"
+             value = {editNumber}
+             onChangeText = {(text)=>setEditNumber(text)}/>
+                  <TouchableOpacity onPress={()=>{setVisibleEdit({show:false});updateContactItem(editNumber,id)}} style={{ backgroundColor:'#009e7f',alignItems: 'center',marginTop:10}}>
                      <Text style={{ fontSize:25,color:'white',fontWeight:'bold',height:50,marginTop:10}}>Save Contact</Text>
                   </TouchableOpacity>
                </View>
@@ -265,12 +342,20 @@ const burPassword = () => {
             </View>
          </TouchableOpacity>
        </View>
+
+   {/* EndContact   */}
+   
+    {/* Address    */}
+   
        <View style={styles.contactNumber}>
        <Text style = {styles.titleContact}>Delivery Address</Text>
-       <View style={styles.address}>
-       <View style={[styles.edit_delete,{top:0}]}>
-            <TouchableOpacity>
-             <View style={styles.edit}>
+       {addressItems.map((e,i)=>(
+         <TouchableOpacity onPress={()=>handleAddress1(e)}> 
+         {e.id == idAddress ?
+         <View style={[styles.address,{backgroundColor:primaryAddress.backgroundColor,borderColor:primaryAddress.borderColor}]}>
+          <View style={[styles.edit_delete,{top:0}]}>
+            <TouchableOpacity onPress={()=>{setVisibleAddressEdit({show:true});trainValueAddress(e,i);handleAddress1(e)}}>
+             <View style={styles.edit} >
                   <Icon
                   name="edit" 
                   color='white'
@@ -278,7 +363,7 @@ const burPassword = () => {
                   />
              </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>{deleteAddress(e,i)}}>
                <View style={styles.delete}>
                   <Icon
                   name="close" 
@@ -288,33 +373,36 @@ const burPassword = () => {
                </View>
             </TouchableOpacity>
          </View>
-             <Text style={styles.textContact}>Home</Text>
-             <Text style={styles.number}>27 Street, 2569 Heritage Road Visalia, CA 93291</Text>
-         </View>
-         <View style={styles.address}>
+             <Text style={styles.textContact}>{e.name}</Text>
+             <Text style={styles.number}>{e.info}</Text>
+         </View>:
+         <View style={[styles.address,{backgroundColor:secondaryAddress.backgroundColor,borderColor:secondaryAddress.borderColor}]}>
          <View style={[styles.edit_delete,{top:0}]}>
-            <TouchableOpacity>
-             <View style={styles.edit}>
-                  <Icon
-                  name="edit" 
-                  color='white'
-                  size={20}
-                  />
-             </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-               <View style={styles.delete}>
-                  <Icon
-                  name="close" 
-                  color='white'
-                  size={20}
-                  />
-               </View>
-            </TouchableOpacity>
-         </View>
-             <Text style={styles.textContact}>Office</Text>
-             <Text style={styles.number}>33 Baker Street, Crescent Road, CA 65746</Text>
-         </View>
+           <TouchableOpacity onPress={()=>{setVisibleAddressEdit({show:true});trainValueAddress(e,i);handleAddress1(e)}}>
+            <View style={styles.edit} >
+                 <Icon
+                 name="edit" 
+                 color='white'
+                 size={20}
+                 />
+            </View>
+           </TouchableOpacity>
+           <TouchableOpacity onPress={()=>{deleteAddress(e,i)}}>
+              <View style={styles.delete}>
+                 <Icon
+                 name="close" 
+                 color='white'
+                 size={20}
+                 />
+              </View>
+           </TouchableOpacity>
+        </View>
+            <Text style={styles.textContact}>{e.name}</Text>
+            <Text style={styles.number}>{e.info}</Text>
+        </View>
+         }
+         </TouchableOpacity>
+      ))}
          <Modal transparent={true}
                visible={visibleAddress.show}> 
             <View style={{ backgroundColor:'#000000aa',flex:1,justifyContent: 'center',alignItems: 'center'}}>
@@ -337,7 +425,7 @@ const burPassword = () => {
              underlineColorAndroid = "transparent"
              placeholder = "Enter title"
              autoCapitalize = "none"
-             onChangeText = {handleTitleAddress}/>
+             onChangeText = {text=>setTitleAddress(text)}/>
              <Textarea style = {{ 
                                  height: 170,
                                  borderWidth:1,
@@ -352,9 +440,55 @@ const burPassword = () => {
             containerStyle={{ height:180 }}
             placeholder = "Enter Address"
              autoCapitalize = "none"
-             onChangeText = {handleContentAddress}/>
-                  <TouchableOpacity onPress={()=>{setVisibleAddress({show:false})}} style={{ backgroundColor:'#009e7f',alignItems: 'center',marginTop:10}}>
-                     <Text style={{ fontSize:25,color:'white',fontWeight:'bold',height:50,marginTop:10}}>Save Contact</Text>
+             onChangeText = {text=>setInfoAddress(text)}/>
+                  <TouchableOpacity onPress={()=>{setVisibleAddress({show:false});addAddress(titleAddress, infoAddress)}} style={{ backgroundColor:'#009e7f',alignItems: 'center',marginTop:10}}>
+                     <Text style={{ fontSize:25,color:'white',fontWeight:'bold',height:50,marginTop:10}}>Save Address</Text>
+                  </TouchableOpacity>
+               </View>
+            </View>
+         </Modal>
+         <Modal transparent={true}
+               visible={visibleAddressEdit.show}> 
+            <View style={{ backgroundColor:'#000000aa',flex:1,justifyContent: 'center',alignItems: 'center'}}>
+            <TouchableOpacity style={{ height:40,width:40,borderRadius:20 ,backgroundColor:'white',justifyContent: 'center',alignItems: 'center',position: 'absolute',right:10,top:15,zIndex:10}}
+            onPress={()=>{setVisibleAddressEdit({show:false})}}>
+               <Icon  name="close" 
+                  color='black'
+                  size={30}/>
+            </TouchableOpacity>  
+               <View style={{backgroundColor:'#f7f8f9',margin:50,width:WIDTH*0.85,height:HEIGHT*0.7,padding:25,justifyContent: 'center'}}>
+                  <Text style={{ fontSize:30,fontWeight:'bold'}}>Edit Address</Text>
+                  <TextInput style = {{ 
+                                 height: 60,
+                                 borderWidth:1,
+                                 borderColor:'#afaeae',
+                                 marginTop:15,
+                                 marginBottom:10,
+                                 borderRadius:5,
+                                 backgroundColor:'white' }}
+             underlineColorAndroid = "transparent"
+             placeholder = "Enter title"
+             autoCapitalize = "none"
+             value = {editTitleAddress}
+             onChangeText = {text=>setEditTitleAddress(text)}/>
+             <Textarea style = {{ 
+                                 height: 170,
+                                 borderWidth:1,
+                                 textAlignVertical: 'top',
+                                 borderColor:'#afaeae',
+                                 marginTop:15,
+                                 marginBottom:10,
+                                 borderRadius:5,
+                                 backgroundColor:'white' }}  
+            underlineColorAndroid = "transparent"                                      
+            maxLength={120}
+            value = {editInfoAddress}
+            containerStyle={{ height:180 }}
+            placeholder = "Enter Address"
+             autoCapitalize = "none"
+             onChangeText ={text=>setEditInfoAddress(text)}/>
+                  <TouchableOpacity onPress={()=>{setVisibleAddressEdit({show:false});editAddress(idAddress,editTitleAddress, editInfoAddress)}} style={{ backgroundColor:'#009e7f',alignItems: 'center',marginTop:10}}>
+                     <Text style={{ fontSize:25,color:'white',fontWeight:'bold',height:50,marginTop:10}}>Save Address</Text>
                   </TouchableOpacity>
                </View>
             </View>
@@ -365,6 +499,11 @@ const burPassword = () => {
             </View>
          </TouchableOpacity>
        </View>
+
+      {/* End Address */}
+
+      {/* payment */}
+
        <View style={styles.paymentOption}>
          <Text style = {styles.titleContact}>Payment Option</Text>
          <View style={styles.titleCard}>
@@ -552,10 +691,10 @@ const styles = StyleSheet.create({
    fontWeight: "bold"
  },
  address:{
-   backgroundColor:'#f7f7f7',
    marginTop:10,
    height:120,
    justifyContent: 'center',
+   borderWidth:1,
    borderRadius:8,
  },
  addAddress:{
