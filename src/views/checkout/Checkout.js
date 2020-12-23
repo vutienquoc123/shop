@@ -77,7 +77,7 @@ export default function Checkout({ navigation }) {
             <View style = {styles.item}>
               <View style={styles.ContentItem}>
                <Text style={styles.quantity}>1  </Text>
-               <Text style={styles.nameItem}> X  </Text>
+               <Text style={styles.nameItem}> X </Text>
               <Text style = {styles.nameItem}>Cherry |<Text style={styles.unit}> 0.5 lb </Text></Text>
               </View>
               <Image style = {styles.imageItem}

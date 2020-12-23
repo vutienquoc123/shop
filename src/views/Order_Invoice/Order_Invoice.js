@@ -7,7 +7,10 @@ export default function Order_Invoice({ navigation }) {
     <ScrollView style={styles.container}>
       <View style={styles.order}>
         <View style={styles.button}>
-          <TouchableOpacity style={[styles.ButtonBack,{width:WIDTH*0.35}]} onPress={() => navigation.navigate('home')}>
+          <TouchableOpacity style={[styles.ButtonBack,{width:WIDTH*0.35}]} onPress={() => navigation.navigate('home', {
+            itemId: 86,
+            otherParam: 'anything you want here',
+          })}>
             <Text style={styles.textButton}>Back to Home</Text>
           </TouchableOpacity>
         </View>

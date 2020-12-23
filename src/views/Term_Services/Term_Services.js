@@ -14,7 +14,7 @@ export default function Term_Services({ navigation }) {
     const HEIGHT = Dimensions.get('window').height;
     console.log(HEIGHT,"aaa")
     return (  
-      <View style={{ zIndex:1,position: 'absolute',backgroundColor:'white',width:WIDTH*0.98,height:HEIGHT*0.35}}>
+      <View style={{ zIndex:1,position: 'absolute',backgroundColor:'white',width:WIDTH*0.98,height:HEIGHT*0.42}}>
         { x >HEIGHT*0.52 && x < HEIGHT *0.92? <Text style={{ fontSize:20,marginTop:20,marginHorizontal:10,color: '#009e7f' }}>PURPOSE</Text>:<Text style={{ fontSize:20,marginTop:20,marginHorizontal:10}}>PURPOSE</Text> }
         { x >HEIGHT*0.92 && x < HEIGHT *1.14? <Text style={{ fontSize:20,marginTop:20,marginHorizontal:10,color: '#009e7f' }}>WHAT IS PERSONAL</Text>:<Text style={{ fontSize:20,marginTop:20,marginHorizontal:10}}>WHAT IS PERSONAL</Text> }
         { x >HEIGHT*1.14 && x < HEIGHT *1.4? <Text style={{ fontSize:20,marginTop:20,marginHorizontal:10,color: '#009e7f' }}>PERSONAL DATA COLLECTED</Text>:<Text style={{ fontSize:20,marginTop:20,marginHorizontal:10}}>PERSONAL DATA COLLECTED</Text> }
