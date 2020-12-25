@@ -1,3 +1,4 @@
+// import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Dimensions } from 'react-native';
@@ -6,34 +7,28 @@ import { Modal } from 'react-native';
 import { Text } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import ic_x from '../../../assets/icon/X.jpg';
+import { changeCategory } from '../actions';
+// import { GET_LIST_CATEGORIES } from '../../../graphql/query/category';
 
-const Category = () => {
-    let data=[
-        {
-            id: '1',
-            text: "Thuc pham 1",
-            image: 'https://png.pngtree.com/png-clipart/20190924/original/pngtree-strawberry-icon-for-your-project-png-image_4813361.jpg',
-        },
-        {
-            id: '2',
-            text: "Thuc pham 2",
-            image: 'https://png.pngtree.com/png-clipart/20190924/original/pngtree-strawberry-icon-for-your-project-png-image_4813361.jpg',
-        },
-        {
-            id: '3',
-            text: "Thuc pham 3",
-            image: 'https://png.pngtree.com/png-clipart/20190924/original/pngtree-strawberry-icon-for-your-project-png-image_4813361.jpg',
-        },
-        {
-            id: '4',
-            text: "Thuc pham 4",
-            image: 'https://png.pngtree.com/png-clipart/20190924/original/pngtree-strawberry-icon-for-your-project-png-image_4813361.jpg',
-        },
-    ]
+const Category =  (props) => {
+
+    const dispatch = useDispatch();
+    let data = props.data.listcategories;
+    
+    // console.log(data);
     const [modalVisible, setModalVisible] = useState(false);
-    const [isCategory,setCategory] =useState(data[0].id);
+    const [isCategory,setCategory] =  useState(data[0].id);
+
+    // return(
+    //     <View>
+    //         {
+    //             data.listcategories.map((item,index)=>(<Text>{item.type}</Text>))
+    //         }
+    //     </View>
+    // )
 
 
     return (
@@ -65,13 +60,16 @@ const Category = () => {
                                 onPress={()=>{
                                     // setCategory(item.id)
                                     setCategory(item.id);
+                                    setModalVisible(!modalVisible);
+                                    // props.setCategory(item.slug);
+                                    // props.fetchCate({variables: { type: item.slug }})
                                 }}
                                 >
-                                    <Image
+                                    {/* <Image
                                         source={{uri: item.image}}
                                         style={{height:40,width:40}}
-                                    />
-                                    <Text style={{fontSize:16,color:'white'}}>{item.text}</Text>
+                                    /> */}
+                                    <Text style={{fontSize:18,color:'white',fontWeight:'bold',textAlign:'center'}}>{item.type}</Text>
                                 </TouchableOpacity>
                             </View>)
                         return(
@@ -79,14 +77,16 @@ const Category = () => {
                                 <TouchableOpacity style={{alignItems:'center',backgroundColor:'white',borderRadius:20,height:80,padding:10}}
                                 onPress={()=>{
                                     setCategory(item.id)
-                        
+                                    setModalVisible(!modalVisible)
+                                    dispatch(changeCategory(item.slug))
+                                    // props.fetchCate({variables: { type: item.slug }})
                                 }}
                                 >
-                                    <Image
+                                    {/* <Image
                                         source={{uri: item.image}}
                                         style={{height:40,width:40}}
-                                    />
-                                    <Text style={{fontSize:16,color:'#009E7F'}}>{item.text}</Text>
+                                    /> */}
+                                    <Text style={{fontSize:18,color:'#009E7F',fontWeight:'bold',textAlign:'center'}}>{item.type}</Text>
                                 </TouchableOpacity>
                             </View>
                             )

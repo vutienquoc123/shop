@@ -15,3 +15,13 @@ query getCategories($type: String!) {
   }
 }
 `;
+
+export const GET_LIST_CATEGORIES = gql`
+query{
+  listcategories{
+    id
+    type
+    slug
+  }
+}
+`;

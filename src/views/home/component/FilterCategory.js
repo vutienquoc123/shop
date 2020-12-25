@@ -11,61 +11,25 @@ import DropdownPicker from './DropdownPicker';
 
 import ic_x from '../../../assets/icon/X.jpg';
 import { Image } from 'react-native';
-
-let data=[
-    {
-        name : 'cate1',
-        list:[
-            {
-                label: 'item11',
-                value : 'item11'
-            },
-            {
-                label: 'item12',
-                value : 'item12'
-            }
-        ]
-    },
-    {
-        name : 'cate2',
-        list:[
-            {
-                label: 'item21',
-                value : 'item21'
-            },
-            {
-                label: 'item22',
-                value : 'item22'
-            }
-        ]
-    },
-    {
-        name : 'cate3',
-        list:[
-            {
-                label: 'item31',
-                value : 'item31'
-            },
-            {
-                label: 'item32',
-                value : 'item32'
-            }
-        ]
-    }
-]
+import { useQuery } from '@apollo/client';
+import { GET_CATEGORIES } from '../../../graphql/query/category';
 
 const FilterCategory = (props) => {
+    console.log("filte:",props.name)
+    const {loading : loading,error: error,data: data} = useQuery(GET_CATEGORIES,{variables:{type: props.name}});
+    // let data = props.data.categories;
     const [modalVisible, setModalVisible] = useState(false);
+    
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.text}>Text</Text>
+                <Text style={styles.text}>{props.name}</Text>
                 { 
                 <TouchableOpacity 
                     onPress={()=>(setModalVisible(!modalVisible))}
                     style={{position:'absolute', right: 10}}
                     >
-                    <Text style={[styles.text]}>Filter</Text>
+                    <Text style={[styles.text,{color: '#009E7F'}]}>Filter</Text>
                 </TouchableOpacity>
                 }
             </View>
@@ -88,8 +52,9 @@ const FilterCategory = (props) => {
                     <ScrollView style={styles.modalView}>
                         
                         {
-                            data.map((item,index)=>(
-                                <DropdownPicker data={item} key={index} />
+                            data && 
+                            data.categories.map((item,index)=>(
+                                <DropdownPicker data={item} key={index}   />
                             ))
                         }
                     </ScrollView>
@@ -120,7 +85,14 @@ const styles = StyleSheet.create({
         // flex: 1,
     },  
     text:{
-        fontSize: 16
+        fontSize: 18,
+        fontWeight:'bold',
+        height: 30,
+        textAlign:'center',
+        paddingHorizontal:10,
+        backgroundColor : 'whitesmoke',
+        borderRadius:10
+
     },
     modalbg:{
         flex:1,
@@ -136,6 +108,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         height: HEIGHT*0.6,
         marginTop: HEIGHT*0.05,
+        borderTopLeftRadius:40,
+        borderTopRightRadius:40,
+        paddingTop: 20
         // marginTop: HEIGHT*0.3,
         
     },
@@ -147,6 +122,7 @@ const styles = StyleSheet.create({
         padding:10,
         borderRadius:20,
         marginTop:HEIGHT*0.2,
+        
     },
     icon:{
         height:20,

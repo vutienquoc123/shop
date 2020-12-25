@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native';
@@ -13,40 +13,89 @@ import Search from './component/Search';
 import SlideImg from './component/SlideImg';
 
 import IC_cart from 'react-native-vector-icons/Ionicons';
+import { useLazyQuery, useQuery } from '@apollo/client';
+import { GET_CATEGORIES, GET_LIST_CATEGORIES } from '../../graphql/query/category';
+import { GET_PRODUCTS } from '../../graphql/query/products';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeCategory } from './actions';
 
 
 const Home = (props) => {
-  const [total, setTotal] = useState(0)
+  const {loading : loading1,error: error1,data: data1} = useQuery(GET_LIST_CATEGORIES);
+  const dispatch = useDispatch();
 
-  const additem =()=>
-  {
-    setTotal(total+1)
-  }
-  const subitem =()=>
-  {
-    setTotal(total-1)
-  }
+  const datahome = useSelector(state=> state.HomeReducer);
+
+  const [total,setTotal] = useState(null);
+  useEffect(()=>{
+    if(datahome.total)
+    {
+      setTotal(datahome.total);
+    }
+  },[datahome.total])
+
+  useEffect(()=>{
+    data1 && dispatch(changeCategory(data1.listcategories[0].slug))
+  },[data1])
+
+  useEffect(()=>{
+
+  },[])
+
+  const [searchfilter,setFilter] = useState("No filter");
+
+
+  // setCategory(data1.listcategories[0].slug)
+  const [category, setCategory] = useState();
+  
+  // useEffect(()=>{
+  //   if(data1) dispatch(changeCategory(data1.listcategories[0].slug))
+  // },[data1])
+
+
+  useEffect(()=>{
+    if(datahome.category_name){
+      setCategory(datahome.category_name)
+      // && fetchCategory({variables:{type: datahome.category_name}})
+    }
+  },[datahome.category_name])
+
+
+  const [fetchCategory,{loading: loadingC,data : dataC}]= useLazyQuery(GET_CATEGORIES);
+  if (loadingC) return <Text>Loading ...</Text>;
+  if(dataC) console.log("Data C: ",dataC.categories)
+  else console.log("data c null");
+
+  // get product by cate
+
+  
+  const {loading: loadingP, error: errorP, data: dataP} 
+  =useQuery(GET_PRODUCTS,{variables:{type: "Thucpham"}})
+  if(loadingP) return null;
+  if (errorP) return `Error! ${error}`;
+  // console.log(dataP.products.items)
+
+  console.log(category);
 
   return (
     <View style={{alignItems:'center'}}>
     <ScrollView>
-      <Category/>
+      <Category data={data1} />
       <Search/>
       <SlideImg/>
-      <FilterCategory/>
-      
-      <View style={{flexDirection: 'row',flexWrap:'wrap'}}>
-        <CardProduct addI={additem} subI={subitem} />
-        <CardProduct addI={additem} subI={subitem} />
-        <CardProduct addI={additem} subI={subitem} />
-        <CardProduct addI={additem} subI={subitem} />
-        <CardProduct addI={additem} subI={subitem} />
-        <CardProduct addI={additem} subI={subitem} />
-        <CardProduct addI={additem} subI={subitem} />
-        
-        </View>
+      {
+        // dataC &&
+        <FilterCategory  name={category} />
+      }
 
       
+      <View style={{flexDirection: 'row',flexWrap:'wrap'}}>
+        {
+          dataP.products.items.map((item,index)=>(<CardProduct key={index} data={item}  />))
+
+        }
+        </View>
+
     </ScrollView>
     <View style={styles.btnfixed}>
       <TouchableOpacity >
@@ -63,9 +112,15 @@ const Home = (props) => {
       </View>
     </View>
   );
+  
 };
 const HEIGHT = Dimensions.get('screen').height;
 export default Home;
+
+
+
+
+
 
 const styles = StyleSheet.create({
   container:{
