@@ -5,63 +5,66 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {UPDATE_ADDRESS,DELETE_ADDRESS} from '../../../graphql/mutation/address'
 import { useMutation } from '@apollo/client';
 import Textarea from 'react-native-textarea';
+import { useDispatch } from 'react-redux';
+import { changeAddress } from '../../../reducer/userCheckout/Actions/ContactActions';
 
 export default function Address(profile) {
-    const WIDTH = Dimensions.get('window').width;
-    const HEIGHT = Dimensions.get('window').height;  
-const [data,setData] = useState(profile.data)
-const [updateAddress] = useMutation(UPDATE_ADDRESS);
-const [deleteAddressMutation] = useMutation(DELETE_ADDRESS) 
-const [addressItems,setAddressItems] = useState(data.me.address)
-const [idAddress,setIdAddress] = useState(data.me.address[0].id)
-const [titleAddress,setTitleAddress] = useState('')
-const [infoAddress,setInfoAddress] = useState('')
-const [iAddress,setIAddress]= useState('')
-const [primaryAddress,setPrimaryAddress] = useState({
-   borderColor: '#009e7f',
-   backgroundColor:'white',
-})
-const [secondaryAddress,setSecondaryAddress] = useState({
-   borderColor: 'white',
-   backgroundColor:'#f7f7f7', 
-})
-const [visibleAddress,setVisibleAddress]= useState({show:false})
-const [visibleAddressEdit,setVisibleAddressEdit]= useState({show:false})
-const [editTitleAddress,setEditTitleAddress]= useState('')
-const [editInfoAddress,setEditInfoAddress]= useState('')
-const addAddress = (name, info) => {
-    const type = 'secondary'
-    updateAddress({variables: { addressInput: JSON.stringify({type,name,info}) }})
-    const id = Math.random()
-    const items = [...addressItems]
-    const item = {id,type,name,info}
-    items.push(item)
-    setAddressItems(items)
+   const WIDTH = Dimensions.get('window').width;
+   const HEIGHT = Dimensions.get('window').height;  
+   const dispatch = useDispatch();
+   const [data,setData] = useState(profile.data)
+   const [updateAddress] = useMutation(UPDATE_ADDRESS);
+   const [deleteAddressMutation] = useMutation(DELETE_ADDRESS) 
+   const [addressItems,setAddressItems] = useState(data.me.address)
+   const [idAddress,setIdAddress] = useState(data.me.address[0].id)
+   const [titleAddress,setTitleAddress] = useState('')
+   const [infoAddress,setInfoAddress] = useState('')
+   const [iAddress,setIAddress]= useState('')
+   const [primaryAddress,setPrimaryAddress] = useState({
+      borderColor: '#009e7f',
+      backgroundColor:'white',
+   })
+   const [secondaryAddress,setSecondaryAddress] = useState({
+      borderColor: 'white',
+      backgroundColor:'#f7f7f7', 
+   })
+   const [visibleAddress,setVisibleAddress]= useState({show:false})
+   const [visibleAddressEdit,setVisibleAddressEdit]= useState({show:false})
+   const [editTitleAddress,setEditTitleAddress]= useState('')
+   const [editInfoAddress,setEditInfoAddress]= useState('')
+   const addAddress = (name, info) => {
+      const type = 'secondary'
+      updateAddress({variables: { addressInput: JSON.stringify({type,name,info}) }})
+      const id = Math.random()
+      const items = [...addressItems]
+      const item = {id,type,name,info}
+      items.push(item)
+      setAddressItems(items)
+   }
+   const editAddress = (id,name,info) =>{
+      console.log(iAddress)
+      const type = 'secondary'
+      updateAddress({variables: { addressInput: JSON.stringify({id,type,name,info}) }})
+      const items = [...addressItems]
+      const item = {id,type,name,info}
+      items[iAddress] = item
+      setAddressItems(items)
  }
-const editAddress = (id,name,info) =>{
-    console.log(iAddress)
-    const type = 'secondary'
-    updateAddress({variables: { addressInput: JSON.stringify({id,type,name,info}) }})
-    const items = [...addressItems]
-    const item = {id,type,name,info}
-    items[iAddress] = item
-    setAddressItems(items)
- }
-const handleAddress1 = (e) => {
-    setIdAddress(e.id)
-}
-const trainValueAddress = (e,i) =>{
- setEditTitleAddress(e.name)
- setEditInfoAddress(e.info)   
- setIAddress(i)
- }
- const deleteAddress = (e,i) => {
-    console.log(e)
-    deleteAddressMutation({variables: { addressId: JSON.stringify(e.id) }})
-    const items = [...addressItems]
-    items.splice(i,1)
-    setAddressItems(items)
- }
+   const handleAddress1 = (e) => {
+      setIdAddress(e.id)
+   }
+   const trainValueAddress = (e,i) =>{
+      setEditTitleAddress(e.name)
+      setEditInfoAddress(e.info)   
+      setIAddress(i)
+   }
+   const deleteAddress = (e,i) => {
+      console.log(e)
+      deleteAddressMutation({variables: { addressId: JSON.stringify(e.id) }})
+      const items = [...addressItems]
+      items.splice(i,1)
+      setAddressItems(items)
+   }
     return (
         <View style={styles.DeliveryAddress}>
         <View style={styles.HeaderAddress}>
@@ -78,7 +81,7 @@ const trainValueAddress = (e,i) =>{
           </TouchableOpacity>
         </View>
         {addressItems.map((e,i)=>(
-        <TouchableOpacity onPress={()=>handleAddress1(e)} key={i}>
+        <TouchableOpacity onPress={()=>{handleAddress1(e);dispatch(changeAddress(e))}} key={i}>
         {e.id == idAddress ?
         <View style={[styles.address,{backgroundColor:primaryAddress.backgroundColor,borderColor:primaryAddress.borderColor}]}>
         <View style={[styles.edit_delete,{top:0}]}>

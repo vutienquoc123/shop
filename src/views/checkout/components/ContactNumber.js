@@ -3,10 +3,12 @@ import { styles } from '../styles/styles';
 import {View,Text,ScrollView,StyleSheet,Image,Dimensions,TouchableOpacity,TextInput,Modal} from 'react-native';
 import { useMutation } from '@apollo/client';
 import {UPDATE_CONTACT,DELETE_CONTACT} from '../../../graphql/mutation/contact'
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Textarea from 'react-native-textarea';
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import { useDispatch } from 'react-redux';
+import { changeContact } from '../../../reducer/userCheckout/Actions/ContactActions';
 export default function ContactNumber(profile) {
     const [data,setData] = useState(profile.data)
+    const dispatch = useDispatch();
     const WIDTH = Dimensions.get('window').width;
     const HEIGHT = Dimensions.get('window').height;
     const [updateContact] = useMutation(UPDATE_CONTACT);
@@ -67,7 +69,7 @@ export default function ContactNumber(profile) {
              <Text style={styles.number}>3</Text>
           </View>
           <View style={styles.AddressTitle}>
-          <Text style={styles.TitleAddress}> Contact Number</Text>
+          <Text style={styles.TitleAddress}>Contact Number</Text>
           </View>
           </View>
           <TouchableOpacity style={{ justifyContent:'center',marginRight:-10 }} onPress={()=>{setVisible({show:true})}}>
@@ -75,11 +77,11 @@ export default function ContactNumber(profile) {
           </TouchableOpacity>
         </View>
         {contactItems.map((e,i)=>(
-        <TouchableOpacity key={i} onPress={()=>handleContact(e)}>
+        <TouchableOpacity key={i} onPress={()=>{handleContact(e);dispatch(changeContact(e))}}>
         {e.id == id ?
         <View style={[styles.timeDelivery,{borderWidth:1,backgroundColor:primary.backgroundColor, borderColor:primary.borderColor}]}>
         <View style={[styles.edit_delete,{top:0}]}>
-          <TouchableOpacity onPress={()=>{setVisibleEdit({show:true});trainValue(e,i),handleContact(e)}}>
+          <TouchableOpacity onPress={()=>{setVisibleEdit({show:true});trainValue(e,i);handleContact(e)}}>
            <View style={styles.edit}>
                 <Icon
                 name="edit" 

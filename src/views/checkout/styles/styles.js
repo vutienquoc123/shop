@@ -190,7 +190,8 @@ export const styles = StyleSheet.create({
       timeContent:{
         fontSize:20,
         marginLeft:10,
-        opacity:0.8
+        opacity:0.8,
+        textTransform:"uppercase",
       },
     
       card:{
