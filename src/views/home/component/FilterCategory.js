@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import { Modal } from 'react-native';
 import { Dimensions } from 'react-native';
@@ -16,14 +16,15 @@ import { GET_CATEGORIES } from '../../../graphql/query/category';
 
 const FilterCategory = (props) => {
     console.log("filte:",props.name)
+    const [title,setTitle] = useState(props.name);
+
     const {loading : loading,error: error,data: data} = useQuery(GET_CATEGORIES,{variables:{type: props.name}});
-    // let data = props.data.categories;
     const [modalVisible, setModalVisible] = useState(false);
     
-    return (
+    return (    
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.text}>{props.name}</Text>
+                <Text style={styles.text}>{title}</Text>
                 { 
                 <TouchableOpacity 
                     onPress={()=>(setModalVisible(!modalVisible))}
@@ -54,7 +55,7 @@ const FilterCategory = (props) => {
                         {
                             data && 
                             data.categories.map((item,index)=>(
-                                <DropdownPicker data={item} key={index}   />
+                                <DropdownPicker data={item} key={index} setTitle={setTitle}   />
                             ))
                         }
                     </ScrollView>

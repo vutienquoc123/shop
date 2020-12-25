@@ -17,7 +17,7 @@ import { useLazyQuery, useQuery } from '@apollo/client';
 import { GET_CATEGORIES, GET_LIST_CATEGORIES } from '../../graphql/query/category';
 import { GET_PRODUCTS } from '../../graphql/query/products';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeCategory } from './actions';
+import { changeCategory, changeSubCategory } from './actions';
 
 
 const Home = (props) => {
@@ -25,6 +25,11 @@ const Home = (props) => {
   const dispatch = useDispatch();
 
   const datahome = useSelector(state=> state.HomeReducer);
+  
+    useEffect(()=>{
+      data1 && dispatch(changeCategory(data1.listcategories[0].slug))
+      && dispatch(changeSubCategory(data1.listcategories[0].slug))
+    },[data1])
 
   const [total,setTotal] = useState(null);
   useEffect(()=>{
@@ -35,47 +40,38 @@ const Home = (props) => {
   },[datahome.total])
 
   useEffect(()=>{
-    data1 && dispatch(changeCategory(data1.listcategories[0].slug))
-  },[data1])
-
-  useEffect(()=>{
-
-  },[])
-
-  const [searchfilter,setFilter] = useState("No filter");
-
+    if(datahome.sub_category)
+    {
+      setTypeP(datahome.sub_category)
+    }
+  },[datahome.sub_category])
 
   // setCategory(data1.listcategories[0].slug)
   const [category, setCategory] = useState();
   
-  // useEffect(()=>{
-  //   if(data1) dispatch(changeCategory(data1.listcategories[0].slug))
-  // },[data1])
-
 
   useEffect(()=>{
     if(datahome.category_name){
       setCategory(datahome.category_name)
-      // && fetchCategory({variables:{type: datahome.category_name}})
     }
   },[datahome.category_name])
 
 
-  const [fetchCategory,{loading: loadingC,data : dataC}]= useLazyQuery(GET_CATEGORIES);
-  if (loadingC) return <Text>Loading ...</Text>;
-  if(dataC) console.log("Data C: ",dataC.categories)
-  else console.log("data c null");
+  // const [fetchCategory,{loading: loadingC,data : dataC}]= useLazyQuery(GET_CATEGORIES);
+  // if (loadingC) return <Text>Loading ...</Text>;
+  // if(dataC) console.log("Data C: ",dataC.categories)
+  // else console.log("data c null");
 
   // get product by cate
 
-  
+  const [typeP, setTypeP] = useState();
+  console.log("type p: ",typeP)
   const {loading: loadingP, error: errorP, data: dataP} 
-  =useQuery(GET_PRODUCTS,{variables:{type: "Thucpham"}})
+  = useQuery(GET_PRODUCTS,{variables:{type: category }})
   if(loadingP) return null;
   if (errorP) return `Error! ${error}`;
-  // console.log(dataP.products.items)
+  console.log(dataP.products.items)
 
-  console.log(category);
 
   return (
     <View style={{alignItems:'center'}}>
@@ -83,10 +79,7 @@ const Home = (props) => {
       <Category data={data1} />
       <Search/>
       <SlideImg/>
-      {
-        // dataC &&
-        <FilterCategory  name={category} />
-      }
+      <FilterCategory name={category} />
 
       
       <View style={{flexDirection: 'row',flexWrap:'wrap'}}>

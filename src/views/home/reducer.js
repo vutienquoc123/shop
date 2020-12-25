@@ -1,9 +1,10 @@
-import { ADD_TOTAL, CHANGE_CATEGORY, SUB_TOTAL } from "./const";
+import { ADD_TOTAL, CHANGE_CATEGORY, CHANGE_SUB_CATEGORY, SUB_TOTAL } from "./const";
 
 let initialState={
     listproduct:[],
     total: 0,
     category_name: '',
+    sub_category:'',
 }
 
 const homeReducer=(state=initialState,action)=>{
@@ -22,7 +23,13 @@ const homeReducer=(state=initialState,action)=>{
         case CHANGE_CATEGORY:
             {
                 state.category_name = action.payload
-                console.log('change cate : ',state.category_name)
+                // console.log('change cate : ',state.category_name)
+            }
+            return {...state}
+        case CHANGE_SUB_CATEGORY:
+            {
+                state.sub_category= action.payload
+                console.log('change sub cate: ',state.sub_category)
             }
             return {...state}
         default:

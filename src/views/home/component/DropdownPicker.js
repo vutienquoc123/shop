@@ -4,13 +4,15 @@ import { Image } from 'react-native';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { changeSubCategory } from '../actions';
 
 
 
 const DropdownPicker = (props) => {
     let data =props.data;
     const [isShow, setshow] = useState(false);
-    // console.log(isShow);
+    const dispatch = useDispatch();
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={()=>(setshow(!isShow))}>
@@ -25,8 +27,8 @@ const DropdownPicker = (props) => {
                 {data.children.map((item,index)=>(
                     <TouchableOpacity key={index} onPress={
                         ()=>{
-                            // props.setFilter(item.title)
-                            // props.refetch()
+                            props.setTitle(item.title)
+                            dispatch(changeSubCategory(item.slug))
                         }}>
                     <Text style={styles.child}>
                         {item.title}
