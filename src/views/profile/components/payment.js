@@ -4,8 +4,8 @@ import { styles } from '../styles/styles';
 import { CreditCardInput } from "react-native-credit-card-input";
 import Swiper from 'react-native-swiper'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Next from './Next'
-import Prev from './Prev'
+import Next from '../../../components/Next'
+import Prev from '../../../components/Prev'
 export default function Payment(profile) {
     const WIDTH = Dimensions.get('window').width;
     const HEIGHT = Dimensions.get('window').height;
