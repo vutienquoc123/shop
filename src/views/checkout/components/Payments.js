@@ -44,21 +44,22 @@ const dishandledCard = () =>{
 
   }
     return (
-        <View style={styles.DeliverySchedule}>
-          <View style={styles.HeaderAddress}>
-            <View style={styles.leftHeader}>
+      <View>
+
+        <View style={styles.HeaderAddress}>
+          <View style={styles.leftHeader}>
             <View style={styles.numberBackground}>
                <Text style={styles.number}>4</Text>
             </View>
             <View style={styles.AddressTitle}>
             <Text style={styles.TitleAddress}> Payment Option</Text>
             </View>
-            </View>
-            <TouchableOpacity style={{ justifyContent:'center',marginRight:-10 }} onPress={()=>{setVisibleCard({show:true})}}>
-              <Text style={styles.add}>+Add Cart</Text>
-            </TouchableOpacity>
           </View>
-          <View style={styles.payment}>
+          <TouchableOpacity style={{ justifyContent:'center',marginRight:-10 }} onPress={()=>{setVisibleCard({show:true})}}>
+            <Text style={styles.add}>+Add Cart</Text>
+          </TouchableOpacity>
+        </View>
+      <View style={styles.payment}>
           <Swiper style={styles.wrapper} 
             showsButtons={true} 
             showsPagination={false}
@@ -147,28 +148,7 @@ const dishandledCard = () =>{
             </View>
          </Modal>
       </View>
-      <View style={styles.end}>
-           <View style={styles.voucher}>
-           <TextInput style = {{ width:WIDTH*0.4,
-                                 height: 60,
-                                 borderWidth:1,
-                                 borderColor:'#afaeae',
-                                 marginBottom:10,
-                                 borderRadius:5,
-                                 backgroundColor:'#f7f7f7' }}
-             underlineColorAndroid = "transparent"
-             placeholder = "Enter Voucher"
-             autoCapitalize = "none"
-            //  onChangeText = {handleTitleAddress}
-             />
-             <TouchableOpacity style={[styles.buttonApply,{width:WIDTH*0.3}]}>
-               <Text style={styles.TextButton}>Apply</Text>
-             </TouchableOpacity>
-           </View>
       </View>
-           <TouchableOpacity style={[styles.buttonApply,{marginTop:30}]}>
-               <Text style={styles.TextButton}>Proceed to Checkout</Text>
-             </TouchableOpacity>
-      </View>
+      
     )
 }
