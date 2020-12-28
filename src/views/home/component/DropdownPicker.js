@@ -4,40 +4,34 @@ import { Image } from 'react-native';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { changeSubCategory } from '../actions';
 
-let data ={
-    name : 'cate1',
-    list:[
-        {
-            label: 'item2',
-            value : 'item1'
-        },
-        {
-            label: 'item1',
-            value : 'item1'
-        }
-    ]
-}
+
 
 const DropdownPicker = (props) => {
     let data =props.data;
     const [isShow, setshow] = useState(false);
-    // console.log(isShow);
+    const dispatch = useDispatch();
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={()=>(setshow(!isShow))}>
                 {data.image ? <Image source={data.image} style={styles.icon} /> : null}
                 <Text style={styles.title}>
-                    {data.name}
+                    {data.title}
                 </Text>
             </TouchableOpacity>
             {
                 isShow ? 
                 <View>
-                {data.list.map((item,index)=>(
-                    <TouchableOpacity key={index} onPress={()=>{console.log(item.label);}}>
+                {data.children.map((item,index)=>(
+                    <TouchableOpacity key={index} onPress={
+                        ()=>{
+                            props.setTitle(item.title)
+                            dispatch(changeSubCategory(item.slug))
+                        }}>
                     <Text style={styles.child}>
-                        {item.label}
+                        {item.title}
                     </Text>
                 </TouchableOpacity>
                 ))}
@@ -76,12 +70,15 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize : 18,
-        marginLeft : 20,
-        color: 'gray',
+        marginLeft : 30,
+        color: '#009E7F',
+        fontSize: 22
     },
     child:{
-        fontSize: 18.,
-        color: 'gray',
-        marginLeft : 40,
+        fontSize: 20,
+        color: '#424242',
+        marginLeft : 60,
+        marginTop: 10,
+        marginEnd:10
     }
 })
