@@ -18,6 +18,7 @@ import { GET_CATEGORIES, GET_LIST_CATEGORIES } from '../../graphql/query/categor
 import { GET_PRODUCTS } from '../../graphql/query/products';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCategory, changeSubCategory } from './actions';
+import { loadSubCategory } from '../../reducer/action/action';
 
 
 const Home = (props) => {
@@ -71,6 +72,11 @@ const Home = (props) => {
   if(loadingP) return null;
   if (errorP) return `Error! ${error}`;
   console.log(dataP.products.items)
+
+  useEffect(() => {
+    dataP &&
+    dispatch(loadSubCategory(dataP))
+  }, [dataP])
 
 
   return (
