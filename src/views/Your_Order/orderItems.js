@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {ScrollView,StyleSheet,View,Text,TouchableOpacity,Dimensions,Image} from 'react-native';
+import {StyleSheet,View,Text,TouchableOpacity} from 'react-native';
 import ProductOrder from './productOrder'
 
 export default function OrderItems(data) {

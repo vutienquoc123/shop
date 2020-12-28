@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
-import {ScrollView,StyleSheet,View,Text,TouchableOpacity,Dimensions,Image} from 'react-native';
+import {ScrollView,View,Text,Dimensions,Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 export default function ProductOrder (data){
     const [order,setOrder] = useState(data.order)
     const WIDTH = Dimensions.get('window').width;
     const HEIGHT = Dimensions.get('window').height;
-    console.log(order)
+    // console.log(order)
      return(
        <View style={{ backgroundColor:'white',marginTop:-20,marginHorizontal:20,borderColor:'#f7f7f7',borderWidth:1,marginBottom:20 }}> 
          <View style={{padding:20,borderBottomWidth:1,borderColor:'#f7f7f7',marginTop:10}}>

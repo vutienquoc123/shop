@@ -65,12 +65,12 @@ const Home = (props) => {
 
   // get product by cate
   const [typeP, setTypeP] = useState();
-  console.log("type p: ",typeP)
+  // console.log("type p: ",typeP)
   const {loading: loadingP, error: errorP, data: dataP} 
   = useQuery(GET_PRODUCTS,{variables:{type: category }})
   if(loadingP) return null;
   if (errorP) return `Error! ${error}`;
-  console.log(dataP.products.items)
+  // console.log(dataP.products.items)
   return (
     <View style={{alignItems:'center',backgroundColor:'white'}}>
     <ScrollView>
@@ -78,15 +78,11 @@ const Home = (props) => {
       <Search/>
       <SlideImg/>
       <FilterCategory name={category} />
-
-      
       <View style={{flexDirection: 'row',flexWrap:'wrap'}}>
         {
           dataP.products.items.map((item,index)=>(<CardProduct key={index} data={item}  />))
-
         }
         </View>
-
     </ScrollView>
     <View style={styles.btnfixed}>
       <TouchableOpacity >
