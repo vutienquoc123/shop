@@ -74,7 +74,6 @@ const Home = (props) => {
   // else console.log("data c null");
 
   // get product by cate
-
   const [typeP, setTypeP] = useState();
   console.log('type p: ', typeP);
   const {loading: loadingP, error: errorP, data: dataP} = useQuery(

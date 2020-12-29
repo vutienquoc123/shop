@@ -1,0 +1,3 @@
+export const CHANGE_CONTACT = 'CHANGE_CONTACT';
+export const CHANGE_ADDRESS = 'CHANGE_ADDRESS';
+export const CHANGE_TIME = 'CHANGE_TIME';
