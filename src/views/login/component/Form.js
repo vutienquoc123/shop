@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Button_Submit from '../../../component/button/Button_Submit';
-import UserInput from '../../../component/text_input/UserInput';
+import Button_Submit from '../../../components/button/Button_Submit';
+import UserInput from '../../../components/text_input/UserInput';
 
 import fb from "../../../assets/icon/facebook.png";
 import gg from '../../../assets/icon/google.png'
@@ -35,7 +35,7 @@ const Form = (props) => {
             {/* form input */}
             <UserInput
                 placeholder ='Username ...'
-                onChangeText = {handleChange}
+                ChangeText = {handleChange}
                 value={account.username}
                 name={'username'}
                 // secureTextEntry ='false'
@@ -44,7 +44,7 @@ const Form = (props) => {
                 placeholder = 'Password ...'
                 secureTextEntry = {showPass}
                 value={account.password}
-                onChangeText = {handleChange}
+                ChangeText = {handleChange}
                 name={'password'}
             />
 

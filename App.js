@@ -1,33 +1,22 @@
 /* eslint-disable prettier/prettier */
 // eslint-disable-next-line prettier/prettier
 import React from 'react';
+import AppContainer from './src/navigation/index';
 import {Provider} from 'react-redux';
-// import AppContainer from './src/navigation/index';
-import {HomeStackScreen} from './src/navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
-import {ProfileStackScreen} from './src/navigation/stack';
-import DrawerContent from './src/Drawer/drawer';
-import CheckoutScreen from './src/views/checkout/Checkout';
-import {createDrawerNavigator} from '@react-navigation/drawer';
 import store from './src/reducer/store';
-//import apolloclient
-import { ApolloProvider } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+// const client = new ApolloClient({
+//   uri: 'http://192.168.1.4:4000/shop/graphql',
+//   cache: new InMemoryCache(),
+// });
 import client from './src/apollo/index';
 const App = () => {
-  const Drawer = createDrawerNavigator();
   return (
     <Provider store={store}>
-    <ApolloProvider client={client}>
-    <NavigationContainer>
-      <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
-        <Drawer.Screen name="HomeDrawer" component={HomeStackScreen} />
-        <Drawer.Screen name="Profile" component={ProfileStackScreen} />
-        <Drawer.Screen name="Checkout" component={CheckoutScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
-    </ApolloProvider>
+      <ApolloProvider client={client}>
+        <AppContainer/>
+      </ApolloProvider>
     </Provider>
-  );
-};
-
+    );
+  };
 export default App;

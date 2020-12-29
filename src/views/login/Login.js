@@ -6,7 +6,7 @@ import Logo from './component/Logo';
 
 import logo from '../../assets/img/Logo.png'
 
-const Login = (props) => {
+const Login = () => {
     return (
         <View style={styles.container}>
             <Logo image={logo}/>

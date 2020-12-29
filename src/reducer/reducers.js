@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
-// import AuthReducer from '../views/login/reducer';
-import HomeReducer from '../views/home/reducer';
-import Sub_Category from './reducers/Sub_Category';
+import ContactReducer from './userCheckout/Reducers/ContactReducer'
+import AddressReducer from './userCheckout/Reducers/AddressReducer'
+import TimeReducer from './userCheckout/Reducers/TimeReducer'
+import HomeReducer from '../views/home/reducer'
+import Sub_Reducer from '../reducer/reducers/Sub_Category'
 const rootReducer = combineReducers({
-  HomeReducer,
-  Sub_Category
+  ContactReducer,
+  AddressReducer,
+  TimeReducer,HomeReducer,
+  Sub_Reducer
 })
 
 export default rootReducer;

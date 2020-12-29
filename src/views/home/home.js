@@ -21,41 +21,43 @@ import { changeCategory, changeSubCategory } from './actions';
 import { loadSubCategory } from '../../reducer/action/action';
 
 
-const Home = (props) => {
-  const {loading : loading1,error: error1,data: data1} = useQuery(GET_LIST_CATEGORIES);
+const Home = () => {
+  const {loading : loadingL,error: errorL,data: dataL} = useQuery(GET_LIST_CATEGORIES);
+  if(loadingL) return console.log(loadingL);
+  if(errorL) return console.log(error1);
+  console.log(dataL);
   const dispatch = useDispatch();
 
   const datahome = useSelector(state=> state.HomeReducer);
   
-    useEffect(()=>{
-      data1 && dispatch(changeCategory(data1.listcategories[0].slug))
-      && dispatch(changeSubCategory(data1.listcategories[0].slug))
-    },[data1])
+    // useEffect(()=>{
+    //   data1 && dispatch(changeCategory(data1.listcategories[0].slug))
+    //   && dispatch(changeSubCategory(data1.listcategories[0].slug))
+    // },[data1])
 
   const [total,setTotal] = useState(null);
-  useEffect(()=>{
-    if(datahome.total)
-    {
-      setTotal(datahome.total);
-    }
-  },[datahome.total])
+  // useEffect(()=>{
+  //   if(datahome.total)
+  //   {
+  //     setTotal(datahome.total);
+  //   }
+  // },[datahome.total])
 
-  useEffect(()=>{
-    if(datahome.sub_category)
-    {
-      setTypeP(datahome.sub_category)
-    }
-  },[datahome.sub_category])
+  // useEffect(()=>{
+  //   if(datahome.sub_category)
+  //   {
+  //     setTypeP(datahome.sub_category)
+  //   }
+  // },[datahome.sub_category])
 
-  // setCategory(data1.listcategories[0].slug)
   const [category, setCategory] = useState();
   
 
-  useEffect(()=>{
-    if(datahome.category_name){
-      setCategory(datahome.category_name)
-    }
-  },[datahome.category_name])
+  // useEffect(()=>{
+  //   if(datahome.category_name){
+  //     setCategory(datahome.category_name)
+  //   }
+  // },[datahome.category_name])
 
 
   // const [fetchCategory,{loading: loadingC,data : dataC}]= useLazyQuery(GET_CATEGORIES);
@@ -64,37 +66,32 @@ const Home = (props) => {
   // else console.log("data c null");
 
   // get product by cate
-
   const [typeP, setTypeP] = useState();
   console.log("type p: ",typeP)
-  const {loading: loadingP, error: errorP, data: dataP} 
-  = useQuery(GET_PRODUCTS,{variables:{type: category }})
-  if(loadingP) return null;
-  if (errorP) return `Error! ${error}`;
-  console.log(dataP.products.items)
+  // const {loading: loadingP, error: errorP, data: dataP} 
+  // = useQuery(GET_PRODUCTS,{variables:{type: category }})
+  // if(loadingP) return null;
+  // if (errorP) return <Text> {errorP}</Text>;
+  // console.log(dataP.products.items)
 
-  useEffect(() => {
-    dataP &&
-    dispatch(loadSubCategory(dataP))
-  }, [dataP])
+  // useEffect(() => {
+  //   dataP &&
+  //   dispatch(loadSubCategory(dataP))
+  // }, [dataP])
 
 
   return (
-    <View style={{alignItems:'center'}}>
+    <View style={{alignItems:'center',backgroundColor:'white'}}>
     <ScrollView>
-      <Category data={data1} />
+      <Category data={dataL} />
       <Search/>
       <SlideImg/>
-      <FilterCategory name={category} />
-
-      
-      <View style={{flexDirection: 'row',flexWrap:'wrap'}}>
+      {/* <FilterCategory name={category} /> */}
+      {/* <View style={{flexDirection: 'row',flexWrap:'wrap'}}>
         {
           dataP.products.items.map((item,index)=>(<CardProduct key={index} data={item}  />))
-
         }
-        </View>
-
+        </View> */}
     </ScrollView>
     <View style={styles.btnfixed}>
       <TouchableOpacity >

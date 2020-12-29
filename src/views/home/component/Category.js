@@ -14,10 +14,9 @@ import { changeCategory } from '../actions';
 // import { GET_LIST_CATEGORIES } from '../../../graphql/query/category';
 
 const Category =  (props) => {
-
+    // console.log(props)
     const dispatch = useDispatch();
     let data = props.data.listcategories;
-    
     // console.log(data);
     const [modalVisible, setModalVisible] = useState(false);
     const [isCategory,setCategory] =  useState(data[0].id);

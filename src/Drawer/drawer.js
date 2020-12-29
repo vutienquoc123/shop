@@ -20,6 +20,7 @@ import Icons from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function DrawerContent({navigation},props) {
+    // console.log({navigation});
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
