@@ -17,7 +17,7 @@ export default function Order_Invoice({ navigation }) {
           <View style={styles.OrderReceived}>
             <Text style={styles.Title}>Order Received</Text>
             <Text style={styles.ContentTitle}>Thank you. Your order has been received</Text>
-            <Text style={styles.titleContent}>Order Nmuber</Text>
+            <Text style={styles.titleContent}>Order Number</Text>
             <Text style={styles.textContent}>1444</Text>
             <Text style={styles.titleContent}>Date</Text>
             <Text style={styles.textContent}>March 14,2019</Text>

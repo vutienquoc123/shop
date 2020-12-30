@@ -11,13 +11,12 @@ export default function Payment(profile) {
     const HEIGHT = Dimensions.get('window').height;
     const [data,setData] = useState(profile.data)
     const [card,setCard] = useState(data.me.card)
-   const [colorCard,setColorCard] = useState('white')
+   const [colorCard,setColorCard] = useState('#009e7f')
    const [visibleCard,setVisibleCard]= useState({show:false})
-   const handleCard = () =>{
-    // console.log(e,"aaaa")
-    if(colorCard=='white')
-     {setColorCard('#009e7f') }
- }
+   const [idCard,setIdCard] = useState('')
+   const handleCard = (e) =>{
+     setIdCard(e.id)
+   }
  const [dataNewCard, setDataNewCard] = useState('')
  const deleteCard = (e,i)=>{ 
     console.log(i)
@@ -25,10 +24,7 @@ export default function Payment(profile) {
     items.splice(i,1)
     setCard(items)
  }
- const dishandledCard = () =>{
-    if(colorCard=='#009e7f')
-     {setColorCard('white')}
- }
+
     const onChangeDataCard = (formData) =>{ 
        JSON.stringify(formData.values, null, " ")
        setDataNewCard(formData.values)
@@ -58,14 +54,21 @@ export default function Payment(profile) {
             showsPagination={false}
             nextButton={<Next/>}
             prevButton={<Prev/>}
-            onMomentumScrollEnd={dishandledCard}>  
+            >  
         {card.map((e,i)=>(
-           <TouchableOpacity  style={styles.card} onPress={handleCard} key={i}>
+           <TouchableOpacity  style={styles.card} onPress={()=>{handleCard(e)}} key={i}>
+           {e.id==idCard?   
            <Image
              style={{
                resizeMode: 'stretch',height:HEIGHT*0.3,width:WIDTH*0.88,borderColor:colorCard,borderWidth:1}}
              source={require('../../../assets/img/card-front.png')}
+             />:
+             <Image
+             style={{
+               resizeMode: 'stretch',height:HEIGHT*0.3,width:WIDTH*0.88}}
+             source={require('../../../assets/img/card-front.png')}
              />
+             }
             {e.cardType=="paypal"?
             <Image
              style={{

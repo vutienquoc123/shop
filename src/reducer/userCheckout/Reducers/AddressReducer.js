@@ -8,7 +8,7 @@ const AddressReducer=(state=initialState,action)=>{
         case CHANGE_ADDRESS:
             {
                 state.address = action.payload
-                // console.log('change cate : ',state.address)
+                // console.log('change add : ',state.address)
             }
             return {...state}
         default:

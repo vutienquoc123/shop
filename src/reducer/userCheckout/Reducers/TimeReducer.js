@@ -8,7 +8,7 @@ const TimeReducer=(state=initialState,action)=>{
         case CHANGE_TIME:
             {
                 state.time = action.payload
-                console.log('change cate : ',state.time)
+                console.log('change time : ',state.time)
             }
             return {...state}
         default:

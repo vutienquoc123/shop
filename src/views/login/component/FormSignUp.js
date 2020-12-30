@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View,TouchableOpacity, Dimensions} from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import Button_Submit from '../../../components/button/Button_Submit';
 import UserInput from '../../../components/text_input/UserInput';
 
 import fb from "../../../assets/icon/facebook.png";
 import gg from '../../../assets/icon/google.png'
 
-const WIDTH = Dimensions.get("screen").width;
+
 const Form = (props) => {
     const [showPass, setshowpass ] = useState(true);
     const [account, setAccount] = useState({username:'', password :''});
@@ -48,14 +48,10 @@ const Form = (props) => {
                 name={'password'}
             />
 
-            <View style={styles.container}>
-                <TouchableOpacity 
-                    style={[styles.button,{backgroundColor: "#009E7F"}]}
-                    onPress={()=>props.navigation.navigate('home')}
-                >        
-                    <Text style={styles.text}>Login</Text>
-                </TouchableOpacity>
-             </View>
+            <Button_Submit
+                text ='SingUp'
+                backgroundColor ="#009E7F"
+            />
             
             <Text style={styles.or}>or</Text>
 
@@ -69,33 +65,15 @@ const Form = (props) => {
                 text ="Continue with Google"
                 backgroundColor ="#4c8bf5"
             />
-            <View style ={{flexDirection : "row", fontSize : 18, alignItems : "center", justifyContent: "center", marginTop : 20}}> 
-                <Text style={{fontSize : 18}}>Don's have any account?   </Text>
-                <TouchableOpacity  onPress={() => props.navigation.navigate('SignUp')}>
+            <View style ={{flexDirection : "row", fontSize : 18, alignItems : "center", justifyContent: "center", marginTop : 40}}> 
+                <Text style={{fontSize : 18}}>Already have an account?  </Text>
+                <TouchableOpacity onPress={() => props.navigation.goBack()}>
                 <Text style={styles.link}
-                >Sign up</Text>
+                >Login</Text>
                 </TouchableOpacity>
             </View>
-            
-            <View style ={{flexDirection : "row", fontSize : 18, alignItems : "center", justifyContent: "center", marginTop : 20}}> 
-                <Text style={{fontSize : 18}}>Forgot your's password?  </Text>
-                <Text style={styles.link}
-                    onPress ={getPassword}
-                >Got it</Text>
-            </View>
-            <View style ={{flexDirection : "row", fontSize : 18, alignItems : "center", justifyContent: "center", marginTop : 20}}> 
-                <Text style={{fontSize : 18}}>back to   </Text>
-                <TouchableOpacity  onPress={() => props.navigation.navigate('home')}>
-                <Text style={styles.link}
-                >Home</Text>
-                </TouchableOpacity>
-            </View>
-            
         </View>
     );
-
-
-    
 };
 
 export default Form;
@@ -103,7 +81,7 @@ export default Form;
 const styles = StyleSheet.create({
     container:{
         alignItems : "center",
-        // justifyContent: "center"
+        justifyContent: "center"
     },
     or : {
         textAlign : "center",
@@ -114,27 +92,5 @@ const styles = StyleSheet.create({
     link:{
         color : "#009E7F",
         fontSize : 18
-    },
-    button:{
-        flexDirection : "row",
-        alignItems : "center",
-        justifyContent: "center",
-        height : 60,
-        width : WIDTH-40,
-        borderRadius : 5,
-    },
-    image:{
-        height : 35,
-        width: 35,
-        resizeMode: "cover",
-        zIndex: 1,
-        marginRight:10
-    },
-    text: {
-        fontFamily : '',
-        fontSize : 22,
-        color: '#fff'
-        // alignItems: "center",
     }
-
 })

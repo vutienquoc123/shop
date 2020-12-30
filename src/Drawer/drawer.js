@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { View, StyleSheet,Image,TouchableOpacity } from 'react-native';
 import {
     useTheme,
@@ -20,7 +20,11 @@ import Icons from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function DrawerContent({navigation},props) {
+    const [login,setLogin]= useState(true)
     // console.log({navigation});
+    const handleSignOut =()=>{
+        setLogin(false);
+    }
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
@@ -35,6 +39,7 @@ export default function DrawerContent({navigation},props) {
                             style={{ color:'gray' }}
                         />
                         </TouchableOpacity>
+                        {login==true?
                         <View style={{flexDirection:'row',backgroundColor: '#f7f7f7',height:120,marginTop:10}}>
                             <Image 
                                 source={{
@@ -46,7 +51,13 @@ export default function DrawerContent({navigation},props) {
                                 <Title style={styles.title}>Quốc</Title>
                                 <Caption style={styles.caption}>@ht12345</Caption>
                             </View>
+                        </View>:
+                        <View style={{flexDirection:'row',backgroundColor: '#f7f7f7',height:120,marginTop:10,justifyContent: 'center',alignItems: 'center'}}>
+                            <TouchableOpacity style={{ height:60,borderRadius:10,width:150,backgroundColor: "#009e7f",justifyContent: 'center',alignItems: 'center'}} onPress={() => {navigation.navigate('Login')}}>
+                                <Text style={{ fontSize:20,fontWeight:'bold',color:'white' }}>Join in</Text>
+                            </TouchableOpacity>
                         </View>
+                        }
                     </View>
                     <Drawer.Section style={styles.drawerSection}>
                         <DrawerItem 
@@ -68,8 +79,8 @@ export default function DrawerContent({navigation},props) {
                                 size={size}
                                 />
                             )}
-                            label="Profile"
-                            onPress={() => {navigation.navigate('Profile')}}
+                            label="Profile"                        
+                                onPress={() => {navigation.navigate('Profile')}}            
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -135,7 +146,7 @@ export default function DrawerContent({navigation},props) {
                                 />
                             )}
                             label="Privacy Policy"
-                            onPress={() => {navigation.navigate('Privacy_Policy')}}
+                            onPress={() => {navigation.navigate('Privacy_Policy');navigation.navigate('home')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
@@ -182,7 +193,7 @@ export default function DrawerContent({navigation},props) {
                         />
                         )}
                         label="Sign Out"
-                        onPress={() => {signOut()}}
+                        onPress={handleSignOut}
                          />
           
                     </Drawer.Section>

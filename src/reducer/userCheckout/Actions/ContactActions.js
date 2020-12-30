@@ -1,5 +1,5 @@
 import {
-    CHANGE_CONTACT,CHANGE_ADDRESS,CHANGE_TIME
+    CHANGE_CONTACT,CHANGE_ADDRESS,CHANGE_TIME,CHANGE_PAYMENT
   } from './actionTypes'
   
   export function changeContact(payload){
@@ -17,6 +17,12 @@ import {
   export function changeTime(payload){
     return {
         type : CHANGE_TIME,
+        payload
+    }
+  }
+  export function changePayment(payload){
+    return {
+        type : CHANGE_PAYMENT,
         payload
     }
   }

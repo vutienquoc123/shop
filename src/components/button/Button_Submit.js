@@ -13,7 +13,6 @@ const Button_Submit = (props) => {
         <View style={styles.container}>
             <TouchableOpacity 
                 style={[styles.button,{backgroundColor: props.backgroundColor}]}
-                onPress={handleClick}
                 >
                     {
                     props.image ? (

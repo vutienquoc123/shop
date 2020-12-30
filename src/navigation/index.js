@@ -12,6 +12,7 @@ import {ServiceStackScreen} from './stack'
 import {NeedHelpStackScreen} from  './stack'
 import {OfferStackScreen} from './stack'
 import {PolicyStackScreen} from './stack'
+import {LoginStackScreen} from './stack'
 import DrawerContent from '../Drawer/drawer';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 const AppContainer = () => {
@@ -28,7 +29,8 @@ const AppContainer = () => {
       <Drawer.Screen name="Term_Services" component={ServiceStackScreen} />
       <Drawer.Screen name="Need_Help" component={NeedHelpStackScreen} />
       <Drawer.Screen name="Offer" component={OfferStackScreen} />
-      <Drawer.Screen name="Privacy_Policy" component={PolicyStackScreen} />
+      <Drawer.Screen name="Privacy_Policy" component={PolicyStackScreen}/> 
+      <Drawer.Screen name="Login" component={LoginStackScreen}/>
     </Drawer.Navigator>
   </NavigationContainer>
   );

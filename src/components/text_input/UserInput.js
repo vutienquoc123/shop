@@ -21,7 +21,7 @@ const UserInput = (props) => {
                 secureTextEntry = {props.secureTextEntry}
                 value= {props.value}
                 onChangeText={(value)=> {
-                    props.onChangeText(props.name,value)
+                    props.ChangeText(props.name,value)
                 }}
                 placeholderTextColor = 'gray'
                 underlineColorAndroid = 'transparent'
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
         height : 60,
         borderRadius : 5,
         fontSize : 18 ,
-        width : '90%',
+        width : '95%',
     }
 })

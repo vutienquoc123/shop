@@ -4,48 +4,48 @@ import Next from '../../../components/Next'
 import Prev from '../../../components/Prev'
 import {View,Text,Image,Dimensions,TouchableOpacity,TextInput,Modal} from 'react-native';
 import { CreditCardInput } from "react-native-credit-card-input";
+import { useDispatch } from 'react-redux';
+import { changePayment } from '../../../reducer/userCheckout/Actions/ContactActions';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { styles } from '../styles/styles';
 export default function Payments(profile) {
   const WIDTH = Dimensions.get('window').width;
   const HEIGHT = Dimensions.get('window').height;
+  const dispatch = useDispatch();
   const [data,setData] = useState(profile.data)
   const [card,setCard] = useState(data.me.card)
-  const [colorCard,setColorCard] = useState('white')
+  const [colorCard,setColorCard] = useState('#009e7f')
   const [visibleCard,setVisibleCard]= useState({show:false})
-  const handleCard = () =>{
-  // console.log(e,"aaaa")
-    if(colorCard=='white')
-      {setColorCard('#009e7f') }
-    }
+  const [idCard,setIdCard] = useState('')
+  const handleCard = (e) =>{
+    setIdCard(e.id)
+  }
     const [dataNewCard, setDataNewCard] = useState('')
-    const deleteCard = (e,i)=>{ 
+    const deleteCard = (i)=>{ 
     // console.log(i)
     const items = [...card]
     items.splice(i,1)
     setCard(items)
   }
-const dishandledCard = () =>{
-  if(colorCard=='#009e7f')
-   {setColorCard('white')}
-}
+// const dishandledCard = () =>{
+//   if(colorCard=='#009e7f')
+//    {setColorCard('white')}
+// }
   const onChangeDataCard = (formData) =>{ 
      JSON.stringify(formData.values, null, " ")
      setDataNewCard(formData.values)
      // console.log(formData.values)
   };
   const addCard = (e) =>{
-     const str = e.number
-     const lastNumber={lastFourDigit : str.substring(15)} 
-     const item = Object.assign(e,lastNumber)
-     const items= [...card]
-     items.push(item)
-     setCard(items)
-
-  }
+    const str = e.number
+    const lastNumber={lastFourDigit : str.substring(15)} 
+    const item = Object.assign(e,lastNumber)
+    const items= [...card]
+    items.push(item)
+    setCard(items)
+ }
     return (
       <View>
-
         <View style={styles.HeaderAddress}>
           <View style={styles.leftHeader}>
             <View style={styles.numberBackground}>
@@ -65,14 +65,21 @@ const dishandledCard = () =>{
             showsPagination={false}
             nextButton={<Next/>}
             prevButton={<Prev/>}
-            onMomentumScrollEnd={dishandledCard}>  
+            // onMomentumScrollEnd={dishandledCard}
+            >  
         {card.map((e,i)=>(
-        <TouchableOpacity  style={styles.card} onPress={handleCard} key={i}>
+        <TouchableOpacity  style={styles.card} onPress={()=>{handleCard(e);dispatch(changePayment(e))}} key={i}>
+        {e.id==idCard?
         <Image
-          style={{
-            resizeMode: 'stretch',height:180,width:WIDTH*0.75,borderColor:colorCard,borderWidth:1}}
+        style={{
+          resizeMode: 'stretch',height:180,width:WIDTH*0.75,borderColor:colorCard,borderWidth:1}}
           source={require('../../../assets/img/card-front.png')}
-          />
+          />:<Image
+          style={{
+            resizeMode: 'stretch',height:180,width:WIDTH*0.75}}
+            source={require('../../../assets/img/card-front.png')}
+            />
+         }  
           {e.cardType=="paypal"?
             <Image
              style={{
@@ -95,7 +102,7 @@ const dishandledCard = () =>{
              /> : null
              }
           <View style={styles.contentCard}>
-             <TouchableOpacity  style={{position:'absolute',top:2,right:-WIDTH*0.06,backgroundColor:'red',borderRadius:15,height:30,width:30,justifyContent:'center',alignItems:'center'}}>
+             <TouchableOpacity  style={{position:'absolute',top:2,right:-WIDTH*0.06,backgroundColor:'red',borderRadius:15,height:30,width:30,justifyContent:'center',alignItems:'center'}} onPress={()=>{deleteCard(i)}}>
                   <Icon
                   name="close" 
                   color='white'

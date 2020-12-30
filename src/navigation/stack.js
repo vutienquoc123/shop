@@ -10,6 +10,8 @@ import serviceScreen from '../views/Term_Services/Term_Services'
 import needHelpScreen from '../views/Need_Help/Need_Help'
 import policyScreen from '../views/Privacy_Policy/Privacy_Policy'
 import offerScreen from '../views/Offer/Offer'
+import loginScreen from '../views/login/Login'
+import signUpScreen from '../views/login/SignUp'
 import {View, Image, StyleSheet, Dimensions,TouchableOpacity,Modal,Text} from 'react-native';
 const Stack = createStackNavigator();
 function Logo() {
@@ -436,6 +438,15 @@ export const PolicyStackScreen = ({navigation}) => {
               headerRight :() => <DropDown/>
            }}
            />
+      </Stack.Navigator>
+  );
+}
+export const LoginStackScreen = ({navigation}) => {
+  return (
+      <Stack.Navigator 
+      screenOptions={{headerShown:false}}>
+          <Stack.Screen name="Login" component={loginScreen} />
+          <Stack.Screen name="SignUp" component={signUpScreen} />
       </Stack.Navigator>
   );
 }
