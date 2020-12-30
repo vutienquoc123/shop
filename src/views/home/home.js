@@ -108,26 +108,53 @@ const Home = (props) => {
           ))}
         </View>
       </ScrollView>
+
+
       <View style={styles.btnfixed}>
         <TouchableOpacity onPress={()=>setVisibleCart(!visibleCart)}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.text}>{total} item</Text>
-            <IC_cart
-              name="cart-outline"
+          <View style={{justifyContent:'center',height: 60}}>
+            <View style={{flexDirection:'row',marginLeft:40}}>
+            <IC_FontAwesome
+              name="shopping-bag"
               color="white"
               size={30}
-              style={styles.icon}
             />
+            <Text style={styles.text}>{total} item</Text>
+            </View>
+            <View style={{position:'absolute',right:0,padding:5}}>
+              <View style={{height:50,justifyContent:'center',backgroundColor:'white',paddingHorizontal:40,borderRadius:50}}>
+                <Text style={{color:'#009E7F',fontSize:22,fontWeight:'bold'}}>total</Text>
+              </View>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
 
       <Modal animationType="slide" transparent={true} visible={visibleCart}>
-        <View style={{flex:1,backgroundColor: '#000000aa'}}>
+        <View style={{flex:1,backgroundColor: '#000000aa',alignItems:'center'}}>
+          <View 
+          style={{backgroundColor:'white',
+                  height:40,
+                  width:40,
+                  borderRadius:20,
+                  justifyContent:'center',
+                  alignItems:'center',
+                  marginTop:20
+                  }}>
+            <TouchableOpacity onPress={()=>setVisibleCart(!visibleCart)}>
+              <IC_FontAwesome
+                name="remove"
+                size={20}
+                color="gray"
+              />
+            </TouchableOpacity>
+          </View>
+
+
           <View style={styles.modal}>
             <View style={{flexDirection: 'row',marginTop: 10,height:60,alignItems:'center',justifyContent:'center'}}>
-            <IC_cart
-              name="cart-outline"
+            <IC_FontAwesome
+              name="shopping-bag"
               color="#009E7F"
               size={30}
             />
@@ -202,13 +229,12 @@ const styles = StyleSheet.create({
     zIndex: 10,
     width: '90%',
     top: HEIGHT * 0.7,
-    height: 50,
+    height: 60,
   },
   text: {
-    fontSize: 18,
+    fontSize: 22,
     color: 'white',
-    marginLeft: 20,
-    marginTop: 10,
+    marginTop:2
   },
   icon: {
     position: 'absolute',

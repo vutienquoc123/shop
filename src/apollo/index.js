@@ -8,7 +8,7 @@ const httplink = new HttpLink({
 });
 
 const client = new ApolloClient({
-  uri: 'http://192.168.1.4:4000/shop/graphql',
+  uri: 'http://192.168.43.225:4000/shop/graphql',
   cache: new InMemoryCache(),
 });
 
