@@ -3,8 +3,7 @@ import {Dimensions} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {Text} from 'react-native';
 import {View} from 'react-native';
-import {Image, ScrollView} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Image, ScrollView,TouchableOpacity} from 'react-native';
 import CardProduct from './component/CardProduct';
 import Category from './component/Category';
 import FilterCategory from './component/FilterCategory';
@@ -12,11 +11,9 @@ import Search from './component/Search';
 // import ShowProduct from './component/ShowProduct';
 import SlideImg from './component/SlideImg';
 import IC_FontAwesome from 'react-native-vector-icons/FontAwesome';
-import IC_cart from 'react-native-vector-icons/Ionicons';
 
-import {useLazyQuery, useQuery} from '@apollo/client';
+import {useApolloClient, useLazyQuery, useQuery} from '@apollo/client';
 import {
-  GET_CATEGORIES,
   GET_LIST_CATEGORIES,
 } from '../../graphql/query/category';
 import {GET_PRODUCTS} from '../../graphql/query/products';
@@ -25,14 +22,30 @@ import {changeCategory, changeSubCategory} from './actions';
 import {loadSubCategory} from '../../reducer/action/action';
 import {Modal} from 'react-native';
 
-const Home = (props) => {
+const Home =  (props) => {
+  const dispatch = useDispatch();
   const [visibleCart, setVisibleCart] = useState(false);
 
-  const {loading: loading1, error: error1, data: data1} = useQuery(
-    GET_LIST_CATEGORIES,
-  );
-  const dispatch = useDispatch();
-  // console.log(data1);
+  // const client = useApolloClient();
+  // const {todo} = client.readQuery({
+  //   query: GET_PRODUCTS,
+  //   variables: {type:"Thucpham"}
+  // })
+  // console.log(todo);
+
+
+
+
+  const {data: dataL} =useQuery(GET_LIST_CATEGORIES);
+  console.log(dataL);
+
+    // let data = useQuery(GET_LIST_CATEGORIES);
+  //   console.log("data---", data);
+  // if(loadingL) return null;
+
+  // if(loaddingL) return null;
+  // console.log(loadingL ,errorL,dataL)
+  // console.log(dataL);
 
 
 
@@ -41,10 +54,10 @@ const Home = (props) => {
   
 
   useEffect(() => {
-    data1 &&
-      dispatch(changeCategory(data1.listcategories[0].slug)) &&
-      dispatch(changeSubCategory(data1.listcategories[0].slug));
-  }, [data1]);
+    dataL &&
+      dispatch(changeCategory(dataL.listcategories[0].slug)) &&
+      dispatch(changeSubCategory(dataL.listcategories[0].slug));
+  }, [dataL]);
 
   const [total, setTotal] = useState(null);
   useEffect(() => {
@@ -59,7 +72,7 @@ const Home = (props) => {
     }
   }, [datahome.sub_category]);
 
-  // setCategory(data1.listcategories[0].slug)
+  // setCategory(dataL.listcategories[0].slug)
   const [category, setCategory] = useState();
 
   useEffect(() => {
@@ -68,25 +81,14 @@ const Home = (props) => {
     }
   }, [datahome.category_name]);
 
-  // const [fetchCategory,{loading: loadingC,data : dataC}]= useLazyQuery(GET_CATEGORIES);
-  // if (loadingC) return <Text>Loading ...</Text>;
-  // if(dataC) console.log("Data C: ",dataC.categories)
-  // else console.log("data c null");
-
   // get product by cate
   const [typeP, setTypeP] = useState();
-  // console.log('type p: ', typeP);
-  const {loading: loadingP, error: errorP, data: dataP} = useQuery(
+  const [limit, setLimit] = useState(20)
+  const {loading:loadingP,error: errorP,data: dataP,fetchMore: fetchMoreP} = useQuery(
     GET_PRODUCTS,
-    {variables: {type: category}},
+    {variables: {type: category,offset: 0, limit:20}},
   );
-  if (loadingP) {
-    return null;
-  }
-  if (errorP) {
-    return `Error! ${errorP}`;
-  }
-  // console.log(dataP.products.items);
+  console.log(loadingP,errorP,dataP);
 
   // useEffect(() => {
   //   dataP && dispatch(loadSubCategory(dataP));
@@ -99,7 +101,7 @@ const Home = (props) => {
   return (
     <View style={{alignItems: 'center'}}>
       <ScrollView>
-        <Category data={data1} />
+        <Category data={dataL} />
         <Search />
         <SlideImg />
         <FilterCategory name={category} />
@@ -108,6 +110,20 @@ const Home = (props) => {
           {dataP.products.items.map((item, index) => (
             <CardProduct key={index} data={item} />
           ))}
+        </View>
+        <View style={{alignItems:'center',justifyContent:'center',marginBottom: WIDTH*0.2,marginTop:20}}>
+          <TouchableOpacity 
+          onPress={ ()=> {
+            // let limitcurrent = dataP.products.length;
+              fetchMoreP({
+              variables: { type: category,offset:20,limit:20}
+            })
+          }}
+          >
+            <View style={{height : 60,paddingHorizontal:40,alignItems:'center',justifyContent:'center',backgroundColor:'white',borderWidth:2,borderColor:'#009E7F',width:WIDTH*0.4,borderRadius:60}}>
+              <Text style={{textAlign: 'center',fontSize:22,color:'#009E7F',fontWeight:'bold'}}>Load more</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
@@ -119,7 +135,7 @@ const Home = (props) => {
             <IC_FontAwesome
               name="shopping-bag"
               color="white"
-              size={30}
+              size={25}
             />
             <Text style={styles.text}>{total} item</Text>
             </View>
@@ -134,7 +150,11 @@ const Home = (props) => {
 
       <Modal animationType="slide" transparent={true} visible={visibleCart}>
         <View style={{flex:1,backgroundColor: '#000000aa',alignItems:'center'}}>
-        <TouchableOpacity onPress={()=>setVisibleCart(!visibleCart)}>
+          <View>
+        <TouchableOpacity onPress={()=>{
+          console.log('press remove')
+          setVisibleCart(!visibleCart)
+          }}>
           <View 
           style={{backgroundColor:'white',
                   height:40,
@@ -151,7 +171,7 @@ const Home = (props) => {
               />
           </View>
           </TouchableOpacity>
-
+          </View>
 
           <View style={styles.modal}>
             <View style={{flexDirection: 'row',marginTop: 10,height:60,alignItems:'center',justifyContent:'center'}}>
@@ -235,8 +255,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 22,
-    color: 'white',
-    marginTop:2
+    color: 'white', 
   },
   icon: {
     position: 'absolute',

@@ -4,12 +4,13 @@ const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
 import Login from '../login/Login';
-
+import client from '../../apollo/index';
+import { GET_PRODUCTS } from '../../graphql/query/products';
 export default function Term_Services({ navigation }) {
-
+  
   return(
     <View>
-      <Login/>
+      <Text>asd</Text>
     </View>
   );
 

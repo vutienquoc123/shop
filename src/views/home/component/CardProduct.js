@@ -73,7 +73,7 @@ export default function CardProduct(props) {
             >
                 <View style={{flex:1,backgroundColor:'#000000aa',alignItems:'center'}}>
                     
-                        <TouchableOpacity onPress={()=>setViewDetail(!viewDetail)}>
+                        <TouchableOpacity onPress={()=>setViewDetail(false)}>
                         <View 
                         style={{backgroundColor:'white',
                                 height:40,
@@ -145,16 +145,19 @@ Trong bài văn, Thảo viết: “Máy quay dường như đang chậm lại, t
                                     </TouchableOpacity>
                                     {
                                     count >0 ?
-                                            <View style={{flexDirection: 'row',zIndex:10,position:'absolute',right:0,paddingHorizontal:20,justifyContent:'center',alignItems:'center',backgroundColor:'#009E7F',height:40,width:100,borderRadius:40}}>
-                                                <TouchableOpacity>
-                                                    <Text style={{color:'white',fontSize:22,fontWeight:'bold',}}>-</Text>
-                                                </TouchableOpacity>
-                                                <Text style={{color:'white',fontSize:22,fontWeight:'bold',marginLeft:20}}>x</Text>
-                                                <TouchableOpacity>
-                                                    <Text style={{color:'white',fontSize:22,fontWeight:'bold',marginLeft:20}}>+</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                            : null
+                                        <View style={{flexDirection: 'row',zIndex:10,position:'absolute',right:0,paddingHorizontal:20,justifyContent:'center',alignItems:'center',backgroundColor:'#009E7F',height:40,width:100,borderRadius:40}}>
+                                            <TouchableOpacity 
+                                            onPress={()=>{setCount(count-1)}}>
+                                                <Text style={{color:'white',fontSize:22,fontWeight:'bold',marginRight:20}}>-</Text>
+                                            </TouchableOpacity>
+                                            <Text style={{color:'white',fontSize:22,fontWeight:'bold'}}>{count}</Text>
+                                            <TouchableOpacity
+                                            onPress={()=>{setCount(count+1)}}
+                                            >
+                                                <Text style={{color:'white',fontSize:22,fontWeight:'bold',marginLeft:20}}>+</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        : null
                                         }
                                 </View>
                             </View>

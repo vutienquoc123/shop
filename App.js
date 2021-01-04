@@ -4,7 +4,7 @@ import React from 'react';
 import AppContainer from './src/navigation/index';
 import {Provider} from 'react-redux';
 import store from './src/reducer/store';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from "@apollo/react-hooks";
 // const client = new ApolloClient({
 //   uri: 'http://192.168.1.4:4000/shop/graphql',
 //   cache: new InMemoryCache(),
