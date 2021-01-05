@@ -1,5 +1,6 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import { View, StyleSheet,Image,TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     useTheme,
     Avatar,
@@ -18,13 +19,33 @@ import {
 } from '@react-navigation/drawer';
 import Icons from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { deleteUser } from '../reducer/login/actions/userActions';
 export default function DrawerContent({navigation},props) {
-    const [login,setLogin]= useState(true)
-    // console.log({navigation});
+    const data = useSelector(state=>state.UserReducer.user)
+    const dispatch = useDispatch();
+    console.log(data,"data")  
+    const [login,setLogin]= useState(data)
+    useEffect(()=>{
+        data && setLogin(data)
+    },[data])
+
+    console.log(login,"login")
     const handleSignOut =()=>{
-        setLogin(false);
+        setLogin(null);
     }
+    const [img, setImg] = useState({
+        uri: 'https://img4.thuthuatphanmem.vn/uploads/2020/05/13/hinh-anh-anime-nu-ngau-dep-nhat_020159971.jpg'
+      });
+      const imageHandler = () => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setImg({ profileImg: reader.result });
+          }
+        };
+        // reader.readAsDataURL(e.target.files[0]);
+        console.log("a", img);
+      };
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
@@ -39,17 +60,17 @@ export default function DrawerContent({navigation},props) {
                             style={{ color:'gray' }}
                         />
                         </TouchableOpacity>
-                        {login==true?
+                        {login !=null?
                         <View style={{flexDirection:'row',backgroundColor: '#f7f7f7',height:120,marginTop:10}}>
+                            <TouchableOpacity onPress={imageHandler}>
                             <Image 
-                                source={{
-                                    uri: 'https://img4.thuthuatphanmem.vn/uploads/2020/05/13/hinh-anh-anime-nu-ngau-dep-nhat_020159971.jpg'
-                                }}
+                                source={img}
                                 style={{width: 80, height: 80, borderRadius: 40,marginLeft:20,marginTop:20}}
                             />
+                            </TouchableOpacity>
                             <View style={{marginLeft:15, flexDirection:'column',marginTop:30}}>
-                                <Title style={styles.title}>Quốc</Title>
-                                <Caption style={styles.caption}>@ht12345</Caption>
+                                <Title style={styles.title}>{data.me.name}</Title>
+                                <Caption style={styles.caption}>{data.me.email}</Caption>
                             </View>
                         </View>:
                         <View style={{flexDirection:'row',backgroundColor: '#f7f7f7',height:120,marginTop:10,justifyContent: 'center',alignItems: 'center'}}>
@@ -71,6 +92,7 @@ export default function DrawerContent({navigation},props) {
                             label="Home"
                             onPress={() => {navigation.navigate('home')}}
                         />
+                        {login !=null?
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
@@ -81,7 +103,20 @@ export default function DrawerContent({navigation},props) {
                             )}
                             label="Profile"                        
                                 onPress={() => {navigation.navigate('Profile')}}            
+                        />:
+                        <DrawerItem 
+                        icon={({color, size}) => (
+                            <Icon 
+                            name="account-outline" 
+                            color={color}
+                            size={size}
+                            />
+                        )}
+                        label="Profile"                        
+                            onPress={() => {navigation.navigate('Login')}}            
                         />
+                        }
+                        {login !=null?
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
@@ -92,7 +127,18 @@ export default function DrawerContent({navigation},props) {
                             )}
                             label="Checkout"
                             onPress={() => {navigation.navigate('Checkout')}}
-                        />
+                        />:<DrawerItem 
+                        icon={({color, size}) => (
+                            <Icon 
+                            name="cart-arrow-down" 
+                            color={color}
+                            size={size}
+                            />
+                        )}
+                        label="Checkout"
+                        onPress={() => {navigation.navigate('Login')}}
+                    />}
+                        {login !=null?
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
@@ -103,7 +149,18 @@ export default function DrawerContent({navigation},props) {
                             )}
                             label="Checkout Alternative"
                             onPress={() => {navigation.navigate('Checkout_Alternative')}}
-                        />
+                        />:<DrawerItem 
+                        icon={({color, size}) => (
+                            <Icon 
+                            name="cart-plus" 
+                            color={color}
+                            size={size}
+                            />
+                        )}
+                        label="Checkout Alternative"
+                        onPress={() => {navigation.navigate('Login')}}
+                    />}
+                    {login !=null?
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
@@ -114,7 +171,17 @@ export default function DrawerContent({navigation},props) {
                             )}
                             label="Your Order"
                             onPress={() => {navigation.navigate('Your_Order')}}
-                        />
+                        />:<DrawerItem 
+                        icon={({color, size}) => (
+                            <Icon 
+                            name="order-bool-ascending-variant" 
+                            color={color}
+                            size={size}
+                            />
+                        )}
+                        label="Your Order"
+                        onPress={() => {navigation.navigate('Login')}}
+                    />}
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
@@ -193,7 +260,7 @@ export default function DrawerContent({navigation},props) {
                         />
                         )}
                         label="Sign Out"
-                        onPress={handleSignOut}
+                        onPress={()=>{handleSignOut();navigation.closeDrawer();dispatch(deleteUser(data))}}
                          />
           
                     </Drawer.Section>

@@ -1,61 +1,79 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View,TouchableOpacity, Dimensions} from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity, Dimensions,TextInput} from 'react-native';
+import { useLazyQuery } from '@apollo/client';
+import {GET_LOGGED_IN_CUSTOMER} from '../../../graphql/query/customer'
 import Button_Submit from '../../../components/button/Button_Submit';
 import UserInput from '../../../components/text_input/UserInput';
-
 import fb from "../../../assets/icon/facebook.png";
 import gg from '../../../assets/icon/google.png'
-
+import { useDispatch } from 'react-redux';
+import { getUser } from '../../../reducer/login/actions/userActions';
+// import ButtomLogin from './ButtomLogin'
 const WIDTH = Dimensions.get("screen").width;
 const Form = (props) => {
+    const [LoginUser,{loading,error,data}] = useLazyQuery(GET_LOGGED_IN_CUSTOMER);
+    console.log(data,loading,error);
+    const dispatch = useDispatch();
     const [showPass, setshowpass ] = useState(true);
-    const [account, setAccount] = useState({username:'', password :''});
-
-    const handleChange=(name,value)=>{
-        // console.log(name," ",value);
-        if(name === 'username') 
-        {
-            setAccount(account.username = value)
-        }
-        else
-        {
-            setAccount(account.password = value)
-        }
-    }
-
-    // const goRegister = ()=>{
-    //     console.log('create account')
-    // }
-
+    const [email, onChangeEmail] = useState('')
+    const [password, onChangePassword] = useState('')
+    // const [inputEmail,setInputEmail] = useState('')
+    // const [inputPassword,setInputPassword] = useState('')
     const getPassword = ()=>{
         console.log('get pass')
     }
+    // let input = JSON.stringify({ email, password })
+    // console.log(input)
+    const Login = (email,password) =>{
+        console.log(email,password,"aaaaaa")
+        LoginUser({variables: { userInput: JSON.stringify({email, password}) }})
+        // console.log(data,loading)
+    }
+    // console.log(data,error)
+    // const Login = (email, password) => {
+    //     updateUser({variables: { meInput: JSON.stringify({ name, email }) }})
+    //     alert('Name: ' + email + ' Email: ' + password)
+    //  }
     return (
         <View>
             {/* form input */}
-            <UserInput
-                placeholder ='Username ...'
-                ChangeText = {handleChange}
-                value={account.username}
-                name={'username'}
-                // secureTextEntry ='false'
-            />
-            <UserInput
-                placeholder = 'Password ...'
-                secureTextEntry = {showPass}
-                value={account.password}
-                ChangeText = {handleChange}
-                name={'password'}
-            />
+            <TextInput style = {{                    
+                                 height: 60,
+                                 borderRadius:8,
+                                 backgroundColor:'#f7f7f7',marginHorizontal:20 }}
+             underlineColorAndroid = "transparent"
+             placeholder = " Email..."
+             autoCapitalize = "none"
+            //  value={email}
+             onChangeText={text => onChangeEmail(text)}/>
+            <TextInput style = {{                    
+                                 height: 60,
+                                 borderRadius:8,
+                                 backgroundColor:'#f7f7f7',marginTop:10,marginBottom:10,marginHorizontal:20 }}
+             underlineColorAndroid = "transparent"
+             secureTextEntry = {showPass}
+             placeholder = " Password..."
+             autoCapitalize = "none"
+            //  value={password}
+             onChangeText={text => onChangePassword(text)}/>
 
             <View style={styles.container}>
+                {data && !loading? 
                 <TouchableOpacity 
                     style={[styles.button,{backgroundColor: "#009E7F"}]}
-                    onPress={()=>props.navigation.navigate('home')}
+                    onPress={()=>{Login(email, password);props.navigation.navigate('home');dispatch(getUser(data))}}
                 >        
-                    <Text style={styles.text}>Login</Text>
+                <Text style={styles.text}>Login</Text>
+                </TouchableOpacity>:
+                <TouchableOpacity 
+                    style={[styles.button,{backgroundColor: "#009E7F"}]}
+                    
+                    onPress={()=>{Login(email, password)}}
+                >        
+                <Text style={styles.text}>Login</Text>
                 </TouchableOpacity>
-             </View>
+                }
+            </View>
             
             <Text style={styles.or}>or</Text>
 
@@ -85,7 +103,7 @@ const Form = (props) => {
             </View>
             <View style ={{flexDirection : "row", fontSize : 18, alignItems : "center", justifyContent: "center", marginTop : 20}}> 
                 <Text style={{fontSize : 18}}>back to   </Text>
-                <TouchableOpacity  onPress={() => props.navigation.navigate('home')}>
+                <TouchableOpacity  onPress={()=>{props.navigation.navigate('home')}}>
                 <Text style={styles.link}
                 >Home</Text>
                 </TouchableOpacity>
@@ -131,10 +149,8 @@ const styles = StyleSheet.create({
         marginRight:10
     },
     text: {
-        fontFamily : '',
         fontSize : 22,
         color: '#fff'
         // alignItems: "center",
     }
-
 })

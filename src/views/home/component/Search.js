@@ -5,14 +5,14 @@ import icon_search from '../../../assets/icon/Search.png';
 const Search = (props) => {
     const [searchText, setSearch] = useState('');
 
-    const handleChange =(e)=>{
-        setSearch({searchText : e.target.value})
+    const handleChange =(name,value)=>{
+        setSearch(searchText=value)
         console.log('text :',searchText)
     }
     return (
         <View style={styles.container}>
             <UserInput 
-                image={icon_search} 
+                image={'search'} 
                 placeholder='Search your product from here'
                 value = {searchText}
                 onchange ={handleChange}
