@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-// eslint-disable-next-line prettier/prettier
 import React from 'react';
 import AppContainer from './src/navigation/index';
 import {Provider} from 'react-redux';

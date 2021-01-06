@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
+    "@apollo/react-hooks": "^4.0.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.2",
     "@react-navigation/drawer": "^5.11.4",
@@ -19,6 +20,7 @@
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-http": "^1.5.17",
+    "gql": "^1.1.2",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
     "react": "16.13.1",
@@ -39,7 +41,8 @@
     "react-native-vector-icons": "^7.1.0",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
-    "redux-devtools": "^3.7.0"
+    "redux-devtools": "^3.7.0",
+    "save": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

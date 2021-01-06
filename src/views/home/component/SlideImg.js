@@ -10,13 +10,13 @@ import img4 from '../../../assets/img/4.jpg';
 const SlideImg = (props) => {
     const data =[
         {
-            uri : 'https://i.pinimg.com/originals/ca/58/61/ca5861451108c300b1e170cb8b1c47e3.jpg'
+            uri : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpXAKUY7uYo_pgWqV9WlrDfaXLdN58gl3V6A&usqp=CAU'
         },
         {
-            uri : 'https://i.pinimg.com/originals/ca/58/61/ca5861451108c300b1e170cb8b1c47e3.jpg'
+            uri : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpXAKUY7uYo_pgWqV9WlrDfaXLdN58gl3V6A&usqp=CAU'
         },
         {
-            uri : 'https://i.pinimg.com/originals/ca/58/61/ca5861451108c300b1e170cb8b1c47e3.jpg'
+            uri : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpXAKUY7uYo_pgWqV9WlrDfaXLdN58gl3V6A&usqp=CAU'
         }
     ]
     return (

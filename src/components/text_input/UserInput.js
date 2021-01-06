@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import Icon from "react-native-vector-icons/Feather";
+import IC_Ionicons from "react-native-vector-icons/Ionicons";
 
 const UserInput = (props) => {
     const handleChange =(e) =>{
@@ -13,7 +13,7 @@ const UserInput = (props) => {
             {/* inputComponent */}
             {
                 props.image ? (
-                    <Icon name={props.image} size={30} style={styles.image} />
+                    <IC_Ionicons name={props.image} size={30} style={styles.image} />
                     ) : null
                 }
             <TextInput
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         marginRight:10
     },
     text:{
-        backgroundColor : 'white',
+        backgroundColor : 'whitesmoke',
         height : 60,
         borderRadius : 5,
         fontSize : 18 ,
