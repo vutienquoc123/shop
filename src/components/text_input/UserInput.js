@@ -38,21 +38,25 @@ const Width = Dimensions.get("screen").width;
 const styles = StyleSheet.create({
     container:{
         // flex: 1,
+        marginTop:10,
         flexDirection :"row",
         justifyContent : "center",
         alignItems: "center",
         marginBottom: 10,
-
+        backgroundColor : 'whitesmoke',
+        paddingHorizontal: 10,
+        borderRadius: 5
     },
     image:{
         zIndex: 1,
-        marginRight:10
+        // marginRight:10,
+        backgroundColor : 'whitesmoke',
     },
     text:{
         backgroundColor : 'whitesmoke',
         height : 60,
         borderRadius : 5,
         fontSize : 18 ,
-        width : '95%',
+        width : '85%',
     }
 })

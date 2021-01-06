@@ -2,10 +2,6 @@ import React,{useState} from 'react';
 import {View, Text,ScrollView,StyleSheet,Dimensions,TouchableOpacity} from 'react-native';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
-
-import Login from '../login/Login';
-import client from '../../apollo/index';
-import { GET_PRODUCTS } from '../../graphql/query/products';
 export default function Term_Services({ navigation }) {
   const [x,setX] = useState(0)
   const onScroll = (e) =>{

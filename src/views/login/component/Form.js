@@ -58,7 +58,7 @@ const Form = (props) => {
              onChangeText={text => onChangePassword(text)}/>
 
             <View style={styles.container}>
-                {data && !loading? 
+                {data && !loading && email == data.me.email && password == data.me.password? 
                 <TouchableOpacity 
                     style={[styles.button,{backgroundColor: "#009E7F"}]}
                     onPress={()=>{Login(email, password);props.navigation.navigate('home');dispatch(getUser(data))}}

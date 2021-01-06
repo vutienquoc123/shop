@@ -23,13 +23,13 @@ import { deleteUser } from '../reducer/login/actions/userActions';
 export default function DrawerContent({navigation},props) {
     const data = useSelector(state=>state.UserReducer.user)
     const dispatch = useDispatch();
-    console.log(data,"data")  
+    // console.log(data,"data")  
     const [login,setLogin]= useState(data)
     useEffect(()=>{
         data && setLogin(data)
     },[data])
 
-    console.log(login,"login")
+    // console.log(login,"login")
     const handleSignOut =()=>{
         setLogin(null);
     }

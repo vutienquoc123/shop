@@ -25,7 +25,7 @@ import {Modal} from 'react-native';
 const Home =  (props) => {
   const [visibleCart, setVisibleCart] = useState(false);
     const {data,loading,error} =useQuery(GET_LIST_CATEGORIES);
-    console.log(data,loading,error);
+    // console.log(data,loading,error);
     const dispatch = useDispatch();
 
   const datahome = useSelector((state) => state.HomeReducer);
@@ -83,7 +83,7 @@ const Home =  (props) => {
   
 
   return (
-    <View style={{alignItems: 'center'}}>
+    <View style={{alignItems: 'center',flex: 1,backgroundColor:'white'}}>
       <ScrollView>
         <Category data={data} />
         <Search />
@@ -227,7 +227,9 @@ const WIDTH= Dimensions.get('screen').width;
 export default Home;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+
+  },
   btnfixed: {
     borderRadius: 40,
     backgroundColor: '#009E7F',

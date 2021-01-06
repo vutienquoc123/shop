@@ -8,6 +8,7 @@ export default function Your_Order({ navigation }) {
     variables: {
       limit: 7,
       user: 12,
+      text: null,
     },
   });
   
