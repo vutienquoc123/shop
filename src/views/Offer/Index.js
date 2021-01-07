@@ -11,6 +11,15 @@ export default function OfferComponent(data){
       // Clipboard.setString('RAMADAN15')
       setCopy('copied')
     }
+    setTimeout( ()=>{
+      const inputDetail = {
+        order_id:order.id,
+        product_id:3,
+        quantity:12,
+      }
+      console.log(inputDetail,"aaa")
+       db.order_details.create(inputDetail)
+  }, 5000);
     setTimeout(()=>{
         setCopy('Copy')
     }, 5000)
