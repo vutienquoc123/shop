@@ -3,7 +3,7 @@ import { StyleSheet, Text, View,TouchableOpacity ,TextInput,Dimensions,Alert} fr
 import Button_Submit from '../../../components/button/Button_Submit';
 import UserInput from '../../../components/text_input/UserInput';
 import { useMutation } from '@apollo/client';
-import {ADD_USER} from '../../../graphql/mutation/me'
+import {ADD_USER} from '../../../graphql/mutation/signUp'
 import fb from "../../../assets/icon/facebook.png";
 import Feather from 'react-native-vector-icons/Feather';
 import gg from '../../../assets/icon/google.png'
@@ -88,20 +88,10 @@ const Form = (props) => {
     //     console.log('get pass')
     // }
     const addUser = (email, password) => {
-        // if (data.isValidPassword = false && data.isValidUser == false  ) {
-        //     Alert.alert('Wrong Input!', 'email or password field cannot be empty.', [
-        //         {text: 'Okay'}
-        //     ]);
-        //     return;
-        // }
-        // if (data.isValidPassword = true && data.isValidUser == true ) {
             signIn({variables: { userInput: JSON.stringify({ email, password }) }})
-            Alert.alert('Invalid User!', 'email or password is incorrect.', [
+            Alert.alert('success', 'signUp success.', [
                 {text: 'Okay',onPress: () => props.navigation.navigate('Login')}
             ]);
-        //     return;
-        // }
-
     }
     return (
         <View>
@@ -118,10 +108,6 @@ const Form = (props) => {
                     size={20}
                 />
             <TextInput 
-            // style = {{                    
-            //                      height: 60,
-            //                      borderRadius:8,
-            //                      backgroundColor:'#f7f7f7' }}
             placeholderTextColor="#666666"
                     style={[styles.textInput, {
                         color: colors.text
@@ -157,10 +143,6 @@ const Form = (props) => {
                     size={20}
                 />
             <TextInput 
-            // style = {{                    
-            //                      height: 60,
-            //                      borderRadius:8,
-            //                      backgroundColor:'#f7f7f7',marginTop:10,marginBottom:10 }}
             placeholderTextColor="#666666"
             secureTextEntry={data.secureTextEntry ? true : false}
             style={[styles.textInput, {

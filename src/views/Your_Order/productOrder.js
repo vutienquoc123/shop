@@ -5,7 +5,7 @@ export default function ProductOrder (data){
     const [order,setOrder] = useState(data.order)
     const WIDTH = Dimensions.get('window').width;
     const HEIGHT = Dimensions.get('window').height;
-    // console.log(order)
+    console.log(order)
      return(
        <View style={{ backgroundColor:'white',marginTop:-20,marginHorizontal:20,borderColor:'#f7f7f7',borderWidth:1,marginBottom:20 }}> 
          <View style={{padding:20,borderBottomWidth:1,borderColor:'#f7f7f7',marginTop:10}}>
@@ -122,7 +122,7 @@ export default function ProductOrder (data){
                 </View>
                 <View style={{width:WIDTH*0.4}}>
                   <Text style={{ fontSize:20,fontWeight: 'bold'}}>{e.title}</Text>
-                  <Text style={{ fontSize:18,opacity:0.6 }}>{e.weight}</Text>
+                  <Text style={{ fontSize:18,opacity:0.6 }}>2g</Text>
                   <Text style={{ color:'#009e7f',fontSize:18 }}>{e.price}</Text>
                 </View>
                 <View style={{width:WIDTH*0.3}}>

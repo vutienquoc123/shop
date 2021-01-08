@@ -7,6 +7,7 @@ import PaymentReducer from './userCheckout/Reducers/PaymentReducer'
 import Cart from './reducers/Cart';
 import Sub_Category from './reducers/Sub_Category';
 import UserReducer from './login/reducers/userReducer'
+import LoginReducer from './login/reducers/loginReducer'
 const rootReducer = combineReducers({
   ContactReducer,
   AddressReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   Sub_Category,
   UserReducer,
   Cart,
+  LoginReducer,
 })
 
 export default rootReducer;

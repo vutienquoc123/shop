@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { useQuery} from '@apollo/client';
 import {GET_ORDERS} from '../../graphql/query/order';
 import OrderComponent from './OrderComponent';
@@ -8,13 +8,20 @@ export default function Your_Order({ navigation }) {
     variables: {
       limit: 7,
       user: 12,
-      text: null,
     },
   });
+  console.log(data, error, loading);
+  // const [order, setOrder] = useState(data);
+  // // setTimeout( ()=>{
+  // //     setOrder(data);
+    
+  // // },3000);
   
-  if (loading) return null;
-   if (error) return `Error! ${error}`;
   return (
-    <OrderComponent data={data}/>
+        <OrderComponent data={data}/>
+//  <View>
+//   <Text>as</Text>
+//   </View> 
+    
   )
 }

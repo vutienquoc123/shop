@@ -7,6 +7,7 @@ export default function OrderItems(data) {
     const [colorOrder,setColorOrder] = useState('#f7f7f7')
     // console.log(data)
     const [order,setOrder] = useState(data.e)
+    // console.log(order)
     function handleOrder(){
     SetNumberOrder(prevCount => prevCount + 1)
     if(numberOrder % 2 == 0){
